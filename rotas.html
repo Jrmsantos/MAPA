@@ -344,6 +344,205 @@
             font-size: 0.75rem;
             margin-top: 0.2rem;
         }
+
+        /* Estilos para os tooltips dos equipamentos - CORRIGIDOS */
+        .equipment-tooltip {
+            max-width: 300px !important;
+            min-width: 200px !important;
+            font-size: 0.8rem;
+            padding: 8px !important;
+            border-radius: 6px !important;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2) !important;
+            background: white !important;
+            border: 1px solid #ddd !important;
+            color: #333 !important;
+        }
+
+        .leaflet-tooltip-top:before {
+            border-top-color: white !important;
+        }
+
+        .leaflet-tooltip-bottom:before {
+            border-bottom-color: white !important;
+        }
+
+        .leaflet-tooltip-left:before {
+            border-left-color: white !important;
+        }
+
+        .leaflet-tooltip-right:before {
+            border-right-color: white !important;
+        }
+
+        .equipment-tooltip-header {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 6px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
+            font-size: 0.85rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        .equipment-tooltip-item {
+            padding: 4px 0;
+            border-bottom: 1px solid #f0f0f0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .equipment-tooltip-item:last-child {
+            border-bottom: none;
+        }
+
+        .equipment-name {
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 0.8rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .equipment-details {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 2px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .no-equipment {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 0.8rem;
+        }
+
+        .equipment-count-badge {
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 10px;
+            padding: 1px 6px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        .view-equipment-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-top: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        /* Estilos para o popup - CORRIGIDOS */
+        .leaflet-popup-content {
+            margin: 12px 15px !important;
+            line-height: 1.4 !important;
+            max-width: 300px !important;
+        }
+
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+            max-width: 320px !important;
+        }
+
+        .popup-content {
+            max-width: 280px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .popup-header {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        .popup-coordinates {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 8px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .popup-description {
+            font-size: 0.8rem;
+            color: #555;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        .equipment-section {
+            margin-top: 10px;
+        }
+
+        .equipment-section-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0 5px 0;
+            font-size: 0.85rem;
+        }
+
+        .equipment-item-popup {
+            border-bottom: 1px solid #f0f0f0;
+            padding: 6px 0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .equipment-item-popup:last-child {
+            border-bottom: none;
+        }
+
+        .equipment-name-popup {
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 0.8rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .equipment-details-popup {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 2px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .text-ellipsis {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+        }
+
+        .multi-line {
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -425,7 +624,6 @@
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     
     <script>
-        // Código JavaScript permanece o mesmo, apenas ajustado para a nova interface
         let map, routes = JSON.parse(localStorage.getItem('ispRoutes')) || [];
         let currentRoutePoints = [], currentMarkers = [], currentPolyline = null;
         let drawingMode = true, currentRouteId = null;
@@ -447,15 +645,47 @@
 
             activateDrawingMode();
             renderRoutes();
+            loadAllEquipmentMarkers();
         }
 
         function addPointToRoute(latlng, name) {
-            const point = { id: Date.now(), lat: latlng.lat, lng: latlng.lng, name: name, description: '' };
+            const point = { 
+                id: Date.now(), 
+                lat: latlng.lat, 
+                lng: latlng.lng, 
+                name: name, 
+                description: '' 
+            };
             currentRoutePoints.push(point);
 
-            const marker = L.marker([latlng.lat, latlng.lng], { draggable: true }).addTo(map);
-            marker.bindPopup(`<strong>${name}</strong><br>Lat: ${latlng.lat.toFixed(6)}<br>Lng: ${latlng.lng.toFixed(6)}`);
-            
+            const marker = createEquipmentMarker(latlng, point);
+            currentMarkers.push(marker);
+            updateRouteLine();
+            showNotification(`Ponto "${name}" adicionado`, 'success');
+        }
+
+        function createEquipmentMarker(latlng, point, equipment = []) {
+            const marker = L.marker([latlng.lat, latlng.lng], { 
+                draggable: true,
+                icon: createCustomIcon(equipment.length)
+            }).addTo(map);
+
+            // Tooltip permanente (aparece ao passar o mouse)
+            const tooltipContent = generateEquipmentTooltip(point, equipment);
+            marker.bindTooltip(tooltipContent, {
+                permanent: false,
+                direction: 'top',
+                offset: [0, -10],
+                className: 'equipment-tooltip'
+            });
+
+            // Popup com mais detalhes (ao clicar)
+            const popupContent = generateEquipmentPopup(point, equipment);
+            marker.bindPopup(popupContent, {
+                maxWidth: 320,
+                className: 'equipment-popup'
+            });
+
             marker.on('dragend', function(e) {
                 const newLatLng = e.target.getLatLng();
                 const pointIndex = currentRoutePoints.findIndex(p => p.id === point.id);
@@ -466,9 +696,120 @@
                 }
             });
 
-            currentMarkers.push(marker);
-            updateRouteLine();
-            showNotification(`Ponto "${name}" adicionado`, 'success');
+            return marker;
+        }
+
+        function createCustomIcon(equipmentCount) {
+            const color = equipmentCount > 0 ? '#e74c3c' : '#3498db';
+            const html = equipmentCount > 0 ? 
+                `<div style="background-color: ${color}; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${equipmentCount}</div>` :
+                `<div style="background-color: ${color}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>`;
+
+            return L.divIcon({
+                html: html,
+                className: 'equipment-marker',
+                iconSize: equipmentCount > 0 ? [25, 25] : [20, 20],
+                iconAnchor: equipmentCount > 0 ? [12, 12] : [10, 10]
+            });
+        }
+
+        function generateEquipmentTooltip(point, equipment) {
+            // Limitar o nome do ponto se for muito longo
+            const pointName = point.name.length > 50 ? point.name.substring(0, 47) + '...' : point.name;
+            
+            let content = `<div class="equipment-tooltip-header multi-line">${pointName}</div>`;
+            
+            if (equipment.length === 0) {
+                content += `<div class="no-equipment">Sem equipamentos</div>`;
+            } else {
+                equipment.slice(0, 3).forEach(equip => {
+                    const equipName = equip.name.length > 30 ? equip.name.substring(0, 27) + '...' : equip.name;
+                    content += `
+                        <div class="equipment-tooltip-item">
+                            <div class="equipment-name multi-line">${equipName}</div>
+                            <div class="equipment-details multi-line">${getEquipmentTypeDisplay(equip.type)}${equip.model ? ` - ${equip.model}` : ''}</div>
+                        </div>
+                    `;
+                });
+                
+                if (equipment.length > 3) {
+                    content += `<div class="equipment-details">+ ${equipment.length - 3} mais</div>`;
+                }
+            }
+            
+            return content;
+        }
+
+        function generateEquipmentPopup(point, equipment) {
+            // Limitar o nome do ponto se for muito longo
+            const pointName = point.name.length > 80 ? point.name.substring(0, 77) + '...' : point.name;
+            
+            let content = `
+                <div class="popup-content">
+                    <div class="popup-header multi-line">${pointName}</div>
+                    <div class="popup-coordinates">
+                        Coordenadas: ${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}
+                    </div>
+            `;
+
+            if (point.description) {
+                const description = point.description.length > 100 ? point.description.substring(0, 97) + '...' : point.description;
+                content += `<div class="popup-description multi-line">${description}</div>`;
+            }
+
+            if (equipment.length === 0) {
+                content += `
+                    <div class="no-equipment" style="text-align: center; padding: 10px 0;">
+                        Nenhum equipamento cadastrado
+                    </div>
+                `;
+            } else {
+                content += `
+                    <div class="equipment-section">
+                        <div class="equipment-section-title">Equipamentos (${equipment.length})</div>
+                `;
+                
+                equipment.forEach(equip => {
+                    const equipName = equip.name.length > 50 ? equip.name.substring(0, 47) + '...' : equip.name;
+                    const equipModel = equip.model && equip.model.length > 30 ? equip.model.substring(0, 27) + '...' : equip.model;
+                    const equipConfig = equip.config && equip.config.length > 60 ? equip.config.substring(0, 57) + '...' : equip.config;
+                    const equipComments = equip.comments && equip.comments.length > 60 ? equip.comments.substring(0, 57) + '...' : equip.comments;
+                    
+                    content += `
+                        <div class="equipment-item-popup">
+                            <div class="equipment-name-popup multi-line">${equipName}</div>
+                            <div class="equipment-details-popup multi-line">
+                                <strong>Tipo:</strong> ${getEquipmentTypeDisplay(equip.type)}<br>
+                                ${equipModel ? `<strong>Modelo:</strong> ${equipModel}<br>` : ''}
+                                ${equipConfig ? `<strong>Configuração:</strong> ${equipConfig}<br>` : ''}
+                                ${equipComments ? `<strong>Observações:</strong> ${equipComments}` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                content += `</div>`;
+            }
+
+            content += `</div>`;
+            return content;
+        }
+
+        function loadAllEquipmentMarkers() {
+            routes.forEach(route => {
+                if (route.points && route.equipment) {
+                    route.points.forEach(point => {
+                        const pointEquipment = route.equipment.filter(equip => equip.pointId === point.id);
+                        if (pointEquipment.length > 0) {
+                            createEquipmentMarker(
+                                { lat: point.lat, lng: point.lng }, 
+                                point, 
+                                pointEquipment
+                            );
+                        }
+                    });
+                }
+            });
         }
 
         function updateRouteLine() {
@@ -552,8 +893,12 @@
             currentRoutePoints = JSON.parse(JSON.stringify(route.points || []));
             
             currentRoutePoints.forEach(point => {
-                const marker = L.marker([point.lat, point.lng]).addTo(map);
-                marker.bindPopup(`<strong>${point.name}</strong><br>${point.description || ''}`);
+                const pointEquipment = route.equipment ? route.equipment.filter(equip => equip.pointId === point.id) : [];
+                const marker = createEquipmentMarker(
+                    { lat: point.lat, lng: point.lng }, 
+                    point, 
+                    pointEquipment
+                );
                 currentMarkers.push(marker);
             });
             
@@ -572,6 +917,21 @@
             renderRoutes();
             if (currentRouteId === routeId) clearDrawing();
             showNotification('Rota excluída', 'info');
+        }
+
+        function getEquipmentTypeDisplay(type) {
+            const types = {
+                'olt': 'OLT',
+                'onu': 'ONU/Cliente',
+                'switch': 'Switch',
+                'router': 'Roteador',
+                'radio': 'Rádio',
+                'antena': 'Antena',
+                'servidor': 'Servidor',
+                'cto': 'CTO/Caixa',
+                'outro': 'Outro'
+            };
+            return types[type] || type;
         }
 
         function activateDrawingMode() {
