@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Redes - Mapa</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --info-color: #17a2b8;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --border-color: #e1e8ed;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow-medium: 0 4px 15px rgba(0,0,0,0.1);
+            --shadow-heavy: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.8rem 1.5rem;
+            box-shadow: var(--shadow-medium);
+            height: 60px;
+            position: relative;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo i {
+            font-size: 1.5rem;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .nav-btn {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+        
+        .sidebar {
+            width: 380px;
+            background-color: var(--sidebar-bg);
+            padding: 1.2rem;
+            box-shadow: var(--shadow-medium);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            z-index: 900;
+            transition: all 0.3s ease;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            position: relative;
+        }
+        
+        .map-container {
+            flex: 1;
+            position: relative;
+            min-height: 0;
+        }
+        
+        #map {
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+        }
+        
+        .form-section {
+            margin-bottom: 1.5rem;
+            background: var(--card-bg);
+            padding: 1.2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .form-section:hover {
+            box-shadow: var(--shadow-medium);
+        }
+        
+        h2 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.15rem;
+        }
+        
+        h2 i {
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+        
+        h3 {
+            margin: 0.8rem 0 0.4rem;
+            color: var(--dark-color);
+            font-size: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 0.8rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 0.85rem;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        textarea {
+            min-height: 70px;
+            resize: vertical;
+        }
+        
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .btn-danger {
+            background-color: var(--accent-color);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .form-actions button {
+            flex: 1;
+        }
+        
+        .route-list {
+            margin-top: 0.8rem;
+            max-height: 200px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .route-item {
+            background-color: var(--light-color);
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            border-left: 4px solid var(--secondary-color);
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        .route-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .route-item.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .route-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .route-name {
+            font-weight: 600;
+        }
+        
+        .route-actions {
+            display: flex;
+            gap: 0.4rem;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.3rem;
+            font-size: 0.75rem;
+            color: inherit;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+        
+        .drawing-status {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            box-shadow: var(--shadow-medium);
+            display: none;
+        }
+        
+        .search-box {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+            background: white;
+            padding: 8px;
+            border-radius: 6px;
+            box-shadow: var(--shadow-medium);
+            width: 280px;
+        }
+        
+        .map-controls {
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .control-btn {
+            background: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            box-shadow: var(--shadow-medium);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        .control-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 18px;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            box-shadow: var(--shadow-heavy);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success { background: var(--success-color); }
+        .notification.error { background: var(--accent-color); }
+        .notification.info { background: var(--info-color); }
+        .notification.warning { background: var(--warning-color); }
+        
+        .compact-section {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .point-item {
+            padding: 0.6rem;
+            background-color: #f8f9fa;
+            margin-bottom: 0.4rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .point-item:hover {
+            background-color: #e9ecef;
+        }
+        
+        .point-description-input {
+            width: 100%;
+            padding: 0.4rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Estilos para os tooltips dos equipamentos */
+        .equipment-tooltip {
+            max-width: 300px !important;
+            min-width: 200px !important;
+            font-size: 0.8rem;
+            padding: 10px !important;
+            border-radius: 8px !important;
+            box-shadow: var(--shadow-heavy) !important;
+            background: white !important;
+            border: 1px solid var(--border-color) !important;
+            color: #333 !important;
+        }
+
+        .leaflet-tooltip-top:before {
+            border-top-color: white !important;
+        }
+
+        .leaflet-tooltip-bottom:before {
+            border-bottom-color: white !important;
+        }
+
+        .leaflet-tooltip-left:before {
+            border-left-color: white !important;
+        }
+
+        .leaflet-tooltip-right:before {
+            border-right-color: white !important;
+        }
+
+        .equipment-tooltip-header {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 6px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
+            font-size: 0.85rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        .equipment-tooltip-item {
+            padding: 4px 0;
+            border-bottom: 1px solid #f0f0f0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .equipment-tooltip-item:last-child {
+            border-bottom: none;
+        }
+
+        .equipment-name {
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 0.8rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .equipment-details {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 2px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .no-equipment {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 0.8rem;
+        }
+
+        .equipment-count-badge {
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 10px;
+            padding: 1px 6px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        .view-equipment-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-top: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        /* Estilos para o popup */
+        .leaflet-popup-content {
+            margin: 12px 15px !important;
+            line-height: 1.4 !important;
+            max-width: 300px !important;
+        }
+
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px !important;
+            box-shadow: var(--shadow-heavy) !important;
+            max-width: 320px !important;
+        }
+
+        .popup-content {
+            max-width: 280px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .popup-header {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        .popup-coordinates {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 8px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .popup-description {
+            font-size: 0.8rem;
+            color: #555;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        .equipment-section {
+            margin-top: 10px;
+        }
+
+        .equipment-section-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0 5px 0;
+            font-size: 0.85rem;
+        }
+
+        .equipment-item-popup {
+            border-bottom: 1px solid #f0f0f0;
+            padding: 6px 0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .equipment-item-popup:last-child {
+            border-bottom: none;
+        }
+
+        .equipment-name-popup {
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 0.8rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .equipment-details-popup {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 2px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .text-ellipsis {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+        }
+
+        .multi-line {
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            display: block;
+        }
+
+        .points-counter {
+            background: var(--info-color);
+            color: white;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            margin-left: 8px;
+        }
+
+        .edit-mode-banner {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background-color: var(--warning-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: var(--shadow-heavy);
+            display: none;
+        }
+
+        .icon-selector {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .icon-option {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .icon-option:hover {
+            border-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .icon-option.selected {
+            border-color: var(--secondary-color);
+            background-color: var(--light-color);
+            transform: scale(1.1);
+        }
+
+        .icon-preview {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .point-config {
+            margin-top: 8px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .point-config h4 {
+            margin: 0 0 8px 0;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+        }
+
+        /* Estilos para os ícones personalizados */
+        .custom-marker {
+            background: transparent !important;
+            border: none !important;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 320px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: 40%;
+            }
+            
+            .main-content {
+                height: 60%;
+            }
+            
+            .search-box {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-network-wired"></i>
+                Sistema de Redes
+            </div>
+            <div class="nav-buttons">
+                <a href="todas_rotas.html" class="nav-btn">
+                    <i class="fas fa-list"></i> Ver Todas as Rotas
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="form-section">
+                <h2><i class="fas fa-plus-circle"></i> <span id="formTitle">Nova Rota</span></h2>
+                <form id="routeForm">
+                    <input type="hidden" id="route_id">
+                    <div class="form-group">
+                        <label for="route_name">Nome da Rota</label>
+                        <input type="text" id="route_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="route_type">Tipo</label>
+                        <select id="route_type" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="fibra">Fibra Óptica</option>
+                            <option value="radio">Rádio Enlace</option>
+                            <option value="metro">Metro Ethernet</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-success" id="saveRouteBtn">
+                            <i class="fas fa-save"></i> <span id="saveButtonText">Salvar</span>
+                        </button>
+                        <button type="button" class="btn-warning" id="cancelEditBtn" style="display: none;">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                        <button type="button" class="btn-danger" id="clearDrawingBtn">
+                            <i class="fas fa-undo"></i> Limpar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-section">
+                <h2><i class="fas fa-route"></i> Rotas</h2>
+                <div class="route-list" id="routeList">
+                    <p style="text-align: center; color: #7f8c8d; font-size: 0.8rem;">Nenhuma rota cadastrada</p>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>
+                    <i class="fas fa-map-marker-alt"></i> Pontos Atuais
+                    <span class="points-counter" id="pointsCounter">0</span>
+                </h2>
+                <div class="compact-section" id="currentPointsList">
+                    <p style="text-align: center; color: #7f8c8d; font-size: 0.8rem;">Nenhum ponto adicionado</p>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2><i class="fas fa-palette"></i> Configuração do Ponto</h2>
+                <div class="point-config">
+                    <h4>Selecione o tipo de ícone:</h4>
+                    <div class="icon-selector" id="iconSelector">
+                        <div class="icon-option selected" data-icon="default" title="Ponto Padrão">
+                            <img src="icones/default.png" alt="Ponto Padrão" class="icon-preview">
+                        </div>
+                        <div class="icon-option" data-icon="radio" title="Rádio">
+                            <img src="icones/radio.png" alt="Rádio" class="icon-preview">
+                        </div>
+                        <div class="icon-option" data-icon="torre" title="Torre">
+                            <img src="icones/Torre.png" alt="Torre" class="icon-preview">
+                        </div>
+                        <div class="icon-option" data-icon="switch" title="Switch">
+                            <img src="icones/switch.png" alt="Switch" class="icon-preview">
+                        </div>
+                        <div class="icon-option" data-icon="dwdm" title="DWDM">
+                            <img src="icones/dwdm.png" alt="DWDM" class="icon-preview">
+                        </div>
+                        <div class="icon-option" data-icon="atencao" title="Atenção">
+                            <img src="icones/atencao.png" alt="Atenção" class="icon-preview">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <div class="map-container">
+                <div id="map"></div>
+                <div class="drawing-status" id="drawingStatus">Clique no mapa para adicionar pontos</div>
+                <div class="edit-mode-banner" id="editModeBanner">Modo Edição - Clique no mapa para adicionar/remover pontos</div>
+                
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Buscar local...">
+                </div>
+                
+                <div class="map-controls">
+                    <button class="control-btn active" id="drawModeBtn">
+                        <i class="fas fa-draw-polygon"></i> Desenho
+                    </button>
+                    <button class="control-btn" id="searchModeBtn">
+                        <i class="fas fa-search"></i> Busca
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    
+    <script>
+        let map, routes = JSON.parse(localStorage.getItem('ispRoutes')) || [];
+        let currentRoutePoints = [], currentMarkers = [], currentPolyline = null;
+        let drawingMode = true, currentRouteId = null, isEditMode = false;
+        let selectedIconType = 'default';
+
+        function initMap() {
+            map = L.map('map').setView([-15.78, -47.92], 4);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+            L.Control.geocoder({
+                defaultMarkGeocode: false,
+                position: 'topleft'
+            }).addTo(map).on('markgeocode', function(e) {
+                if (drawingMode) addPointToRoute(e.geocode.center, e.geocode.name);
+            });
+
+            map.on('click', function(e) {
+                if (drawingMode) addPointToRoute(e.latlng, `Ponto ${currentRoutePoints.length + 1}`);
+            });
+
+            activateDrawingMode();
+            renderRoutes();
+            loadAllEquipmentMarkers();
+            updatePointsCounter();
+            setupIconSelector();
+        }
+
+        function setupIconSelector() {
+            const iconOptions = document.querySelectorAll('.icon-option');
+            iconOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove selected class from all options
+                    iconOptions.forEach(opt => opt.classList.remove('selected'));
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    // Update selected icon type
+                    selectedIconType = this.getAttribute('data-icon');
+                    showNotification(`Ícone selecionado: ${getIconDisplayName(selectedIconType)}`, 'info');
+                });
+            });
+        }
+
+        function getIconDisplayName(iconType) {
+            const iconNames = {
+                'default': 'Ponto Padrão',
+                'radio': 'Rádio',
+                'torre': 'Torre',
+                'switch': 'Switch',
+                'dwdm': 'DWDM',
+                'atencao': 'Atenção'
+            };
+            return iconNames[iconType] || iconType;
+        }
+
+        function addPointToRoute(latlng, name) {
+            const point = { 
+                id: Date.now(), 
+                lat: latlng.lat, 
+                lng: latlng.lng, 
+                name: name, 
+                description: '',
+                iconType: selectedIconType
+            };
+            currentRoutePoints.push(point);
+
+            const marker = createEquipmentMarker(latlng, point);
+            currentMarkers.push(marker);
+            updateRouteLine();
+            updatePointsCounter();
+            updateCurrentPointsList();
+            showNotification(`Ponto "${name}" adicionado (${currentRoutePoints.length} pontos) - ${getIconDisplayName(selectedIconType)}`, 'success');
+        }
+
+        function createEquipmentMarker(latlng, point, equipment = []) {
+            const marker = L.marker([latlng.lat, latlng.lng], { 
+                draggable: true,
+                icon: createCustomIcon(point.iconType, equipment.length)
+            }).addTo(map);
+
+            // Tooltip permanente (aparece ao passar o mouse)
+            const tooltipContent = generateEquipmentTooltip(point, equipment);
+            marker.bindTooltip(tooltipContent, {
+                permanent: false,
+                direction: 'top',
+                offset: [0, -10],
+                className: 'equipment-tooltip'
+            });
+
+            // Popup com mais detalhes (ao clicar)
+            const popupContent = generateEquipmentPopup(point, equipment);
+            marker.bindPopup(popupContent, {
+                maxWidth: 320,
+                className: 'equipment-popup'
+            });
+
+            marker.on('dragend', function(e) {
+                const newLatLng = e.target.getLatLng();
+                const pointIndex = currentRoutePoints.findIndex(p => p.id === point.id);
+                if (pointIndex !== -1) {
+                    currentRoutePoints[pointIndex].lat = newLatLng.lat;
+                    currentRoutePoints[pointIndex].lng = newLatLng.lng;
+                    updateRouteLine();
+                    updateCurrentPointsList();
+                }
+            });
+
+            // Adiciona evento para remover ponto ao clicar com botão direito
+            marker.on('contextmenu', function(e) {
+                e.originalEvent.preventDefault();
+                removePoint(point.id);
+            });
+
+            return marker;
+        }
+
+        function createCustomIcon(iconType, equipmentCount) {
+            const hasEquipment = equipmentCount > 0;
+            const iconUrl = `icones/${iconType}.png`;
+
+            const html = `
+                <div style="
+                    width: ${hasEquipment ? '36px' : '30px'}; 
+                    height: ${hasEquipment ? '36px' : '30px'}; 
+                    display: flex; 
+                    align-items: center; 
+                    justify-content: center; 
+                    position: relative;
+                    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+                ">
+                    <img src="${iconUrl}" style="width: ${hasEquipment ? '32px' : '26px'}; height: ${hasEquipment ? '32px' : '26px'}; object-fit: contain;">
+                    ${hasEquipment ? `
+                        <div style="
+                            position: absolute;
+                            top: -5px;
+                            right: -5px;
+                            background: #e74c3c;
+                            color: white;
+                            border-radius: 50%;
+                            width: 18px;
+                            height: 18px;
+                            font-size: 10px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border: 1px solid white;
+                            font-weight: bold;
+                            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+                        ">${equipmentCount}</div>
+                    ` : ''}
+                </div>
+            `;
+
+            return L.divIcon({
+                html: html,
+                className: 'custom-marker',
+                iconSize: hasEquipment ? [36, 36] : [30, 30],
+                iconAnchor: hasEquipment ? [18, 18] : [15, 15]
+            });
+        }
+
+        function removePoint(pointId) {
+            if (confirm('Remover este ponto?')) {
+                // Remove o marcador do mapa
+                const markerIndex = currentMarkers.findIndex(marker => {
+                    const point = currentRoutePoints.find(p => p.id === pointId);
+                    return marker.getLatLng().lat === point.lat && marker.getLatLng().lng === point.lng;
+                });
+                
+                if (markerIndex !== -1) {
+                    map.removeLayer(currentMarkers[markerIndex]);
+                    currentMarkers.splice(markerIndex, 1);
+                }
+
+                // Remove o ponto da lista
+                currentRoutePoints = currentRoutePoints.filter(p => p.id !== pointId);
+                
+                updateRouteLine();
+                updatePointsCounter();
+                updateCurrentPointsList();
+                showNotification('Ponto removido', 'info');
+            }
+        }
+
+        function updatePointsCounter() {
+            const counter = document.getElementById('pointsCounter');
+            counter.textContent = currentRoutePoints.length;
+        }
+
+        function updateCurrentPointsList() {
+            const pointsList = document.getElementById('currentPointsList');
+            
+            if (currentRoutePoints.length === 0) {
+                pointsList.innerHTML = '<p style="text-align: center; color: #7f8c8d; font-size: 0.8rem;">Nenhum ponto adicionado</p>';
+                return;
+            }
+
+            pointsList.innerHTML = '';
+            currentRoutePoints.forEach((point, index) => {
+                const pointItem = document.createElement('div');
+                pointItem.className = 'point-item';
+                pointItem.innerHTML = `
+                    <div style="display: flex; justify-content: between; align-items: center;">
+                        <div style="flex: 1;">
+                            <strong>${point.name}</strong>
+                            <div style="font-size: 0.7rem; color: #666;">
+                                ${getIconDisplayName(point.iconType)} • ${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}
+                            </div>
+                        </div>
+                        <button onclick="removePoint(${point.id})" style="background: var(--accent-color); color: white; border: none; border-radius: 3px; padding: 2px 6px; font-size: 0.6rem; cursor: pointer; margin-left: 5px;" title="Remover ponto">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                pointsList.appendChild(pointItem);
+            });
+        }
+
+        function generateEquipmentTooltip(point, equipment) {
+            const pointName = point.name.length > 50 ? point.name.substring(0, 47) + '...' : point.name;
+            
+            let content = `
+                <div class="equipment-tooltip-header multi-line">
+                    ${getIconDisplayName(point.iconType)}: ${pointName}
+                </div>`;
+            
+            if (equipment.length === 0) {
+                content += `<div class="no-equipment">Sem equipamentos</div>`;
+            } else {
+                equipment.slice(0, 3).forEach(equip => {
+                    const equipName = equip.name.length > 30 ? equip.name.substring(0, 27) + '...' : equip.name;
+                    content += `
+                        <div class="equipment-tooltip-item">
+                            <div class="equipment-name multi-line">${equipName}</div>
+                            <div class="equipment-details multi-line">${getEquipmentTypeDisplay(equip.type)}${equip.model ? ` - ${equip.model}` : ''}</div>
+                        </div>
+                    `;
+                });
+                
+                if (equipment.length > 3) {
+                    content += `<div class="equipment-details">+ ${equipment.length - 3} mais</div>`;
+                }
+            }
+            
+            return content;
+        }
+
+        function generateEquipmentPopup(point, equipment) {
+            const pointName = point.name.length > 80 ? point.name.substring(0, 77) + '...' : point.name;
+            
+            let content = `
+                <div class="popup-content">
+                    <div class="popup-header multi-line">
+                        ${getIconDisplayName(point.iconType)}: ${pointName}
+                    </div>
+                    <div class="popup-coordinates">
+                        Coordenadas: ${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}
+                    </div>
+            `;
+
+            if (point.description) {
+                const description = point.description.length > 100 ? point.description.substring(0, 97) + '...' : point.description;
+                content += `<div class="popup-description multi-line">${description}</div>`;
+            }
+
+            if (equipment.length === 0) {
+                content += `
+                    <div class="no-equipment" style="text-align: center; padding: 10px 0;">
+                        Nenhum equipamento cadastrado
+                    </div>
+                `;
+            } else {
+                content += `
+                    <div class="equipment-section">
+                        <div class="equipment-section-title">Equipamentos (${equipment.length})</div>
+                `;
+                
+                equipment.forEach(equip => {
+                    const equipName = equip.name.length > 50 ? equip.name.substring(0, 47) + '...' : equip.name;
+                    const equipModel = equip.model && equip.model.length > 30 ? equip.model.substring(0, 27) + '...' : equip.model;
+                    const equipConfig = equip.config && equip.config.length > 60 ? equip.config.substring(0, 57) + '...' : equip.config;
+                    const equipComments = equip.comments && equip.comments.length > 60 ? equip.comments.substring(0, 57) + '...' : equip.comments;
+                    
+                    content += `
+                        <div class="equipment-item-popup">
+                            <div class="equipment-name-popup multi-line">${equipName}</div>
+                            <div class="equipment-details-popup multi-line">
+                                <strong>Tipo:</strong> ${getEquipmentTypeDisplay(equip.type)}<br>
+                                ${equipModel ? `<strong>Modelo:</strong> ${equipModel}<br>` : ''}
+                                ${equipConfig ? `<strong>Configuração:</strong> ${equipConfig}<br>` : ''}
+                                ${equipComments ? `<strong>Observações:</strong> ${equipComments}` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                content += `</div>`;
+            }
+
+            content += `</div>`;
+            return content;
+        }
+
+        function loadAllEquipmentMarkers() {
+            routes.forEach(route => {
+                if (route.points && route.equipment) {
+                    route.points.forEach(point => {
+                        const pointEquipment = route.equipment.filter(equip => equip.pointId === point.id);
+                        if (pointEquipment.length > 0) {
+                            createEquipmentMarker(
+                                { lat: point.lat, lng: point.lng }, 
+                                point, 
+                                pointEquipment
+                            );
+                        }
+                    });
+                }
+            });
+        }
+
+        function updateRouteLine() {
+            if (currentPolyline) map.removeLayer(currentPolyline);
+            if (currentRoutePoints.length >= 2) {
+                const latlngs = currentRoutePoints.map(p => [p.lat, p.lng]);
+                currentPolyline = L.polyline(latlngs, { color: '#3498db', weight: 4, opacity: 0.7 }).addTo(map);
+            }
+        }
+
+        function clearDrawing() {
+            currentMarkers.forEach(marker => map.removeLayer(marker));
+            if (currentPolyline) map.removeLayer(currentPolyline);
+            currentMarkers = [];
+            currentRoutePoints = [];
+            currentPolyline = null;
+            document.getElementById('routeForm').reset();
+            updatePointsCounter();
+            updateCurrentPointsList();
+            showNotification('Todos os pontos foram removidos', 'info');
+        }
+
+        function addRoute(name, type) {
+            const distance = calculateTotalDistance();
+            const newRoute = {
+                id: Date.now(), name, type, distance: distance.toFixed(2),
+                points: [...currentRoutePoints], equipment: [],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            routes.push(newRoute);
+            localStorage.setItem('ispRoutes', JSON.stringify(routes));
+            currentRouteId = newRoute.id;
+            renderRoutes();
+            showNotification(`Rota "${name}" salva com ${currentRoutePoints.length} pontos!`, 'success');
+            clearDrawing();
+            exitEditMode();
+        }
+
+        function updateRoute(routeId, name, type) {
+            const routeIndex = routes.findIndex(route => route.id === routeId);
+            if (routeIndex !== -1) {
+                const distance = calculateTotalDistance();
+                routes[routeIndex].name = name;
+                routes[routeIndex].type = type;
+                routes[routeIndex].distance = distance.toFixed(2);
+                routes[routeIndex].points = [...currentRoutePoints];
+                routes[routeIndex].updatedAt = new Date().toISOString();
+                
+                localStorage.setItem('ispRoutes', JSON.stringify(routes));
+                renderRoutes();
+                showNotification(`Rota "${name}" atualizada com ${currentRoutePoints.length} pontos!`, 'success');
+                clearDrawing();
+                exitEditMode();
+            }
+        }
+
+        function calculateTotalDistance() {
+            let total = 0;
+            for (let i = 0; i < currentRoutePoints.length - 1; i++) {
+                total += calculateDistance(currentRoutePoints[i].lat, currentRoutePoints[i].lng,
+                                         currentRoutePoints[i+1].lat, currentRoutePoints[i+1].lng);
+            }
+            return total;
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371, dLat = (lat2 - lat1) * Math.PI / 180, dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2)**2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2)**2;
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        }
+
+        function renderRoutes() {
+            const routeList = document.getElementById('routeList');
+            routeList.innerHTML = routes.length ? '' : '<p style="text-align: center; color: #7f8c8d; font-size: 0.8rem;">Nenhuma rota</p>';
+            
+            routes.forEach(route => {
+                const item = document.createElement('div');
+                item.className = 'route-item';
+                item.innerHTML = `
+                    <div class="route-info">
+                        <div>
+                            <div class="route-name">${route.name}</div>
+                            <small>${route.distance} km - ${getRouteTypeDisplay(route.type)} - ${route.points ? route.points.length : 0} pontos</small>
+                        </div>
+                        <div class="route-actions">
+                            <button class="action-btn" onclick="viewRoute(${route.id})" title="Visualizar">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" onclick="editRoute(${route.id})" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn" onclick="deleteRoute(${route.id})" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                routeList.appendChild(item);
+            });
+        }
+
+        function getRouteTypeDisplay(type) {
+            const types = {
+                'fibra': 'Fibra Óptica',
+                'radio': 'Rádio Enlace', 
+                'metro': 'Metro Ethernet'
+            };
+            return types[type] || type;
+        }
+
+        function viewRoute(routeId) {
+            const route = routes.find(r => r.id == routeId);
+            if (!route) return;
+            
+            clearDrawing();
+            currentRoutePoints = JSON.parse(JSON.stringify(route.points || []));
+            
+            currentRoutePoints.forEach(point => {
+                const pointEquipment = route.equipment ? route.equipment.filter(equip => equip.pointId === point.id) : [];
+                const marker = createEquipmentMarker(
+                    { lat: point.lat, lng: point.lng }, 
+                    point, 
+                    pointEquipment
+                );
+                currentMarkers.push(marker);
+            });
+            
+            updateRouteLine();
+            updatePointsCounter();
+            updateCurrentPointsList();
+            
+            const bounds = L.latLngBounds(currentRoutePoints.map(p => [p.lat, p.lng]));
+            map.fitBounds(bounds, { padding: [20, 20] });
+            
+            showNotification(`Visualizando: ${route.name} (${route.points.length} pontos)`, 'info');
+        }
+
+        function editRoute(routeId) {
+            const route = routes.find(r => r.id == routeId);
+            if (!route) {
+                showNotification('Rota não encontrada!', 'error');
+                return;
+            }
+            
+            // Entra no modo de edição
+            isEditMode = true;
+            currentRouteId = routeId;
+            
+            // Preenche o formulário com os dados da rota
+            document.getElementById('route_id').value = routeId;
+            
+            setTimeout(() => {
+                document.getElementById('route_name').value = route.name;
+                document.getElementById('route_type').value = route.type;
+            }, 100);
+            
+            // Atualiza a interface para modo edição
+            document.getElementById('formTitle').textContent = 'Editar Rota';
+            document.getElementById('saveButtonText').textContent = 'Atualizar';
+            document.getElementById('cancelEditBtn').style.display = 'block';
+            document.getElementById('editModeBanner').style.display = 'block';
+            document.getElementById('drawingStatus').style.display = 'none';
+            
+            // Carrega os pontos da rota
+            clearDrawing();
+            currentRoutePoints = JSON.parse(JSON.stringify(route.points || []));
+            
+            currentRoutePoints.forEach(point => {
+                const pointEquipment = route.equipment ? route.equipment.filter(equip => equip.pointId === point.id) : [];
+                const marker = createEquipmentMarker(
+                    { lat: point.lat, lng: point.lng }, 
+                    point, 
+                    pointEquipment
+                );
+                currentMarkers.push(marker);
+            });
+            
+            updateRouteLine();
+            updatePointsCounter();
+            updateCurrentPointsList();
+            
+            const bounds = L.latLngBounds(currentRoutePoints.map(p => [p.lat, p.lng]));
+            map.fitBounds(bounds, { padding: [20, 20] });
+            
+            showNotification(`Editando: ${route.name} - Adicione, remova ou mova os pontos`, 'warning');
+        }
+
+        function exitEditMode() {
+            isEditMode = false;
+            currentRouteId = null;
+            
+            // Restaura a interface para modo normal
+            document.getElementById('formTitle').textContent = 'Nova Rota';
+            document.getElementById('saveButtonText').textContent = 'Salvar';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            document.getElementById('editModeBanner').style.display = 'none';
+            document.getElementById('route_id').value = '';
+            
+            // Limpa o formulário
+            document.getElementById('routeForm').reset();
+            
+            showNotification('Modo de edição cancelado', 'info');
+        }
+
+        function deleteRoute(routeId) {
+            if (!confirm('Excluir esta rota?')) return;
+            routes = routes.filter(route => route.id != routeId);
+            localStorage.setItem('ispRoutes', JSON.stringify(routes));
+            renderRoutes();
+            if (currentRouteId === routeId) {
+                clearDrawing();
+                exitEditMode();
+            }
+            showNotification('Rota excluída', 'info');
+        }
+
+        function getEquipmentTypeDisplay(type) {
+            const types = {
+                'olt': 'OLT',
+                'onu': 'ONU/Cliente',
+                'switch': 'Switch',
+                'dwdm': 'DWDM',
+                'radio': 'Rádio',
+                'cto': 'CTO/Caixa',
+                'outro': 'Outro'
+            };
+            return types[type] || type;
+        }
+
+        function activateDrawingMode() {
+            drawingMode = true;
+            document.getElementById('drawModeBtn').classList.add('active');
+            document.getElementById('searchModeBtn').classList.remove('active');
+            if (!isEditMode) {
+                document.getElementById('drawingStatus').style.display = 'block';
+            }
+        }
+
+        function activateSearchMode() {
+            drawingMode = false;
+            document.getElementById('searchModeBtn').classList.add('active');
+            document.getElementById('drawModeBtn').classList.remove('active');
+            document.getElementById('drawingStatus').style.display = 'none';
+        }
+
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', initMap);
+        document.getElementById('routeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('route_name').value;
+            const type = document.getElementById('route_type').value;
+            const routeId = document.getElementById('route_id').value;
+            
+            if (currentRoutePoints.length < 1) {
+                showNotification('Adicione pelo menos 1 ponto!', 'error');
+                return;
+            }
+            
+            if (isEditMode && routeId) {
+                // Modo edição - atualiza rota existente
+                updateRoute(parseInt(routeId), name, type);
+            } else {
+                // Modo criação - adiciona nova rota
+                addRoute(name, type);
+            }
+        });
+        
+        document.getElementById('clearDrawingBtn').addEventListener('click', clearDrawing);
+        document.getElementById('cancelEditBtn').addEventListener('click', exitEditMode);
+        document.getElementById('drawModeBtn').addEventListener('click', activateDrawingMode);
+        document.getElementById('searchModeBtn').addEventListener('click', activateSearchMode);
+    </script>
+</body>
+</html>
