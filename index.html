@@ -423,15 +423,17 @@
 
         /* Estilos para os tooltips dos equipamentos */
         .equipment-tooltip {
-            max-width: 300px !important;
-            min-width: 200px !important;
+            max-width: 350px !important;
+            min-width: 250px !important;
             font-size: 0.8rem;
-            padding: 10px !important;
-            border-radius: 8px !important;
+            padding: 12px !important;
+            border-radius: 10px !important;
             box-shadow: var(--shadow-heavy) !important;
             background: white !important;
-            border: 1px solid var(--border-color) !important;
+            border: 2px solid var(--border-color) !important;
             color: #333 !important;
+            backdrop-filter: blur(10px);
+            z-index: 10000 !important;
         }
 
         .leaflet-tooltip-top:before {
@@ -453,17 +455,25 @@
         .equipment-tooltip-header {
             font-weight: bold;
             color: var(--primary-color);
-            margin-bottom: 6px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 4px;
-            font-size: 0.85rem;
+            margin-bottom: 8px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 6px;
+            font-size: 0.9rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
-            white-space: normal;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tooltip-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
         }
 
         .equipment-tooltip-item {
-            padding: 4px 0;
+            padding: 6px 0;
             border-bottom: 1px solid #f0f0f0;
             word-wrap: break-word;
             overflow-wrap: break-word;
@@ -476,65 +486,109 @@
         .equipment-name {
             font-weight: 600;
             color: var(--secondary-color);
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            margin-bottom: 2px;
         }
 
         .equipment-details {
             font-size: 0.75rem;
             color: #666;
-            margin-top: 2px;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            line-height: 1.3;
+        }
+
+        .equipment-type-badge {
+            background: var(--info-color);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: 5px;
         }
 
         .no-equipment {
             color: #999;
             font-style: italic;
             text-align: center;
-            padding: 5px 0;
+            padding: 8px 0;
             font-size: 0.8rem;
         }
 
         .equipment-count-badge {
             background: var(--secondary-color);
             color: white;
-            border-radius: 10px;
-            padding: 1px 6px;
+            border-radius: 12px;
+            padding: 2px 8px;
             font-size: 0.7rem;
-            margin-left: 5px;
+            margin-left: 8px;
+            font-weight: bold;
         }
 
         .view-equipment-btn {
             background: var(--success-color);
             color: white;
             border: none;
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
             cursor: pointer;
-            margin-top: 5px;
+            margin-top: 8px;
             display: inline-flex;
             align-items: center;
-            gap: 3px;
+            gap: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .view-equipment-btn:hover {
+            background: #27ae60;
+            transform: translateY(-1px);
+        }
+
+        .tooltip-summary {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 8px;
+            margin: 8px 0;
+            border-left: 3px solid var(--info-color);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            margin-bottom: 3px;
+        }
+
+        .summary-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .summary-value {
+            color: var(--primary-color);
+            font-weight: 600;
         }
 
         /* Estilos para o popup */
         .leaflet-popup-content {
-            margin: 12px 15px !important;
-            line-height: 1.4 !important;
-            max-width: 300px !important;
+            margin: 15px 18px !important;
+            line-height: 1.5 !important;
+            max-width: 400px !important;
+            min-width: 300px !important;
         }
 
         .leaflet-popup-content-wrapper {
-            border-radius: 8px !important;
+            border-radius: 12px !important;
             box-shadow: var(--shadow-heavy) !important;
-            max-width: 320px !important;
+            max-width: 450px !important;
+            border: 2px solid var(--border-color);
         }
 
         .popup-content {
-            max-width: 280px;
+            max-width: 380px;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -542,48 +596,74 @@
         .popup-header {
             font-weight: bold;
             color: var(--primary-color);
-            margin-bottom: 8px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-            font-size: 0.9rem;
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 8px;
+            font-size: 1rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
             white-space: normal;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .popup-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
         }
 
         .popup-coordinates {
-            font-size: 0.75rem;
-            color: #666;
-            margin-bottom: 8px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        .popup-description {
             font-size: 0.8rem;
-            color: #555;
+            color: #666;
             margin-bottom: 10px;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            background: #f8f9fa;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border-left: 3px solid var(--info-color);
+        }
+
+        .popup-description {
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 12px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
             white-space: normal;
+            line-height: 1.4;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
         }
 
         .equipment-section {
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         .equipment-section-title {
             font-weight: bold;
             color: var(--primary-color);
-            margin: 10px 0 5px 0;
-            font-size: 0.85rem;
+            margin: 12px 0 8px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
         }
 
         .equipment-item-popup {
             border-bottom: 1px solid #f0f0f0;
-            padding: 6px 0;
+            padding: 8px 0;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            transition: background-color 0.2s ease;
+        }
+
+        .equipment-item-popup:hover {
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            padding: 8px;
         }
 
         .equipment-item-popup:last-child {
@@ -593,17 +673,34 @@
         .equipment-name-popup {
             font-weight: 600;
             color: var(--secondary-color);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            margin-bottom: 4px;
         }
 
         .equipment-details-popup {
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             color: #666;
-            margin-top: 2px;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 2px;
+        }
+
+        .detail-label {
+            min-width: 80px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .detail-value {
+            flex: 1;
+            color: #333;
         }
 
         .text-ellipsis {
@@ -702,10 +799,223 @@
             border: none !important;
         }
 
+        /* Estilos para o modo de adicionar switch */
+        .switch-mode-banner {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background-color: var(--info-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: var(--shadow-heavy);
+            display: none;
+        }
+
+        .add-switch-btn {
+            background-color: var(--info-color);
+            margin-top: 8px;
+        }
+
+        /* Estilos para as conexões de equipamentos */
+        .equipment-connection {
+            stroke-dasharray: 5, 10;
+            animation: dash 1s linear infinite;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -15;
+            }
+        }
+
+        /* Modal para renomear pontos */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, var(--secondary-color), var(--info-color));
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-modal {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        /* Estilos para conexões de redundância */
+        .redundancy-connection {
+            stroke-dasharray: 10, 5;
+            animation: dash-redundant 0.8s linear infinite;
+        }
+
+        @keyframes dash-redundant {
+            to {
+                stroke-dashoffset: -15;
+            }
+        }
+
+        .connection-primary {
+            stroke: #2ecc71;
+            stroke-width: 4;
+        }
+
+        .connection-secondary {
+            stroke: #3498db;
+            stroke-width: 3;
+        }
+
+        .connection-backup {
+            stroke: #f39c12;
+            stroke-width: 3;
+            stroke-dasharray: 15, 10;
+        }
+
+        .redundancy-badge {
+            background: #e74c3c;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 0.6rem;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .connection-info {
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 4px 8px;
+            margin: 2px 0;
+            font-size: 0.7rem;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Estilos para o modo redundância */
+        .redundancy-mode-banner {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background-color: var(--warning-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: var(--shadow-heavy);
+            display: none;
+        }
+
+        .point-highlight {
+            animation: highlight-pulse 2s infinite;
+        }
+
+        @keyframes highlight-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
         /* Responsividade */
         @media (max-width: 1024px) {
             .sidebar {
                 width: 320px;
+            }
+            
+            .equipment-tooltip {
+                max-width: 300px !important;
+                min-width: 220px !important;
+            }
+            
+            .leaflet-popup-content {
+                max-width: 350px !important;
+                min-width: 250px !important;
             }
         }
 
@@ -725,6 +1035,16 @@
             
             .search-box {
                 width: 200px;
+            }
+            
+            .equipment-tooltip {
+                max-width: 250px !important;
+                min-width: 200px !important;
+            }
+            
+            .leaflet-popup-content {
+                max-width: 280px !important;
+                min-width: 220px !important;
             }
         }
     </style>
@@ -802,11 +1122,17 @@
                         <div class="icon-option selected" data-icon="default" title="Ponto Padrão">
                             <img src="icones/default.png" alt="Ponto Padrão" class="icon-preview">
                         </div>
+                        <div class="icon-option" data-icon="nuvem" title="nuvem">
+                            <img src="icones/nuvem.png" alt="nuvem" class="icon-preview">
+                        </div>
                         <div class="icon-option" data-icon="radio" title="Rádio">
                             <img src="icones/radio.png" alt="Rádio" class="icon-preview">
                         </div>
                         <div class="icon-option" data-icon="torre" title="Torre">
                             <img src="icones/Torre.png" alt="Torre" class="icon-preview">
+                        </div>
+                        <div class="icon-option" data-icon="router" title="Router">
+                            <img src="icones/router.png" alt="Router" class="icon-preview">
                         </div>
                         <div class="icon-option" data-icon="switch" title="Switch">
                             <img src="icones/switch.png" alt="Switch" class="icon-preview">
@@ -818,6 +1144,12 @@
                             <img src="icones/atencao.png" alt="Atenção" class="icon-preview">
                         </div>
                     </div>
+                    <button class="add-switch-btn" id="addSwitchBtn" style="display: none;">
+                        <i class="fas fa-plus"></i> Adicionar Equipamento a partir de um ponto
+                    </button>
+                    <button class="add-switch-btn" id="addRedundantConnectionBtn" style="display: none; background-color: var(--warning-color); margin-top: 5px;">
+                        <i class="fas fa-sitemap"></i> Adicionar Conexão de Redundância
+                    </button>
                 </div>
             </div>
         </aside>
@@ -827,10 +1159,8 @@
                 <div id="map"></div>
                 <div class="drawing-status" id="drawingStatus">Clique no mapa para adicionar pontos</div>
                 <div class="edit-mode-banner" id="editModeBanner">Modo Edição - Clique no mapa para adicionar/remover pontos</div>
-                
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Buscar local...">
-                </div>
+                <div class="switch-mode-banner" id="switchModeBanner">Modo Equipamento - Selecione um ponto de origem clicando nele</div>
+                <div class="redundancy-mode-banner" id="redundancyModeBanner">Modo Redundância - Selecione primeiro o ponto de origem e depois o ponto de destino</div>
                 
                 <div class="map-controls">
                     <button class="control-btn active" id="drawModeBtn">
@@ -844,6 +1174,63 @@
         </main>
     </div>
 
+    <!-- Modal para renomear pontos -->
+    <div class="modal" id="renameModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Renomear Ponto</h3>
+                <button class="close-modal" onclick="closeRenameModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newPointName">Novo nome do ponto:</label>
+                    <input type="text" id="newPointName" class="form-control" placeholder="Digite o novo nome...">
+                </div>
+                <div class="form-group">
+                    <label for="newPointDescription">Descrição (opcional):</label>
+                    <textarea id="newPointDescription" class="form-control" placeholder="Digite uma descrição..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" onclick="closeRenameModal()">Cancelar</button>
+                <button class="btn btn-success" onclick="savePointName()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para configurar conexão de redundância -->
+    <div class="modal" id="redundancyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-sitemap"></i> Configurar Conexão de Redundância</h3>
+                <button class="close-modal" onclick="closeRedundancyModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="redundancyType">Tipo de Conexão:</label>
+                    <select id="redundancyType" class="form-control">
+                        <option value="primary">Primária</option>
+                        <option value="secondary">Secundária</option>
+                        <option value="backup">Backup</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="redundancyDescription">Descrição (opcional):</label>
+                    <textarea id="redundancyDescription" class="form-control" placeholder="Descreva esta conexão de redundância..."></textarea>
+                </div>
+                <div class="connection-info" style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                    <strong>Conectando:</strong><br>
+                    <span id="redundancyOriginInfo" style="color: #2c3e50;"></span><br>
+                    <span id="redundancyTargetInfo" style="color: #2c3e50;"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" onclick="closeRedundancyModal()">Cancelar</button>
+                <button class="btn btn-success" onclick="saveRedundancyConnection()">Salvar Conexão</button>
+            </div>
+        </div>
+    </div>
+
     <div class="notification" id="notification"></div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -854,6 +1241,12 @@
         let currentRoutePoints = [], currentMarkers = [], currentPolyline = null;
         let drawingMode = true, currentRouteId = null, isEditMode = false;
         let selectedIconType = 'default';
+        let isAddingEquipment = false, equipmentOriginPoint = null, tempConnectionLine = null;
+        let isAddingRedundancy = false, redundancyOriginPoint = null, redundancyTargetPoint = null;
+        let equipmentConnections = [];
+        let redundancyConnections = [];
+        let currentRenamingPoint = null;
+        let currentRedundancyConfig = null;
 
         function initMap() {
             map = L.map('map').setView([-15.78, -47.92], 4);
@@ -863,11 +1256,25 @@
                 defaultMarkGeocode: false,
                 position: 'topleft'
             }).addTo(map).on('markgeocode', function(e) {
-                if (drawingMode) addPointToRoute(e.geocode.center, e.geocode.name);
+                if (drawingMode && !isAddingEquipment && !isAddingRedundancy) {
+                    addPointToRoute(e.geocode.center, e.geocode.name);
+                } else if (isAddingEquipment && equipmentOriginPoint) {
+                    addEquipmentFromPoint(e.geocode.center, e.geocode.name);
+                }
             });
 
             map.on('click', function(e) {
-                if (drawingMode) addPointToRoute(e.latlng, `Ponto ${currentRoutePoints.length + 1}`);
+                if (drawingMode && !isAddingEquipment && !isAddingRedundancy) {
+                    const pointName = prompt('Digite o nome para este ponto:', `Ponto ${currentRoutePoints.length + 1}`);
+                    if (pointName) {
+                        addPointToRoute(e.latlng, pointName);
+                    }
+                } else if (isAddingEquipment && equipmentOriginPoint) {
+                    const equipmentName = prompt('Digite o nome para este equipamento:', `Equipamento ${currentRoutePoints.length + 1}`);
+                    if (equipmentName) {
+                        addEquipmentFromPoint(e.latlng, equipmentName);
+                    }
+                }
             });
 
             activateDrawingMode();
@@ -881,11 +1288,8 @@
             const iconOptions = document.querySelectorAll('.icon-option');
             iconOptions.forEach(option => {
                 option.addEventListener('click', function() {
-                    // Remove selected class from all options
                     iconOptions.forEach(opt => opt.classList.remove('selected'));
-                    // Add selected class to clicked option
                     this.classList.add('selected');
-                    // Update selected icon type
                     selectedIconType = this.getAttribute('data-icon');
                     showNotification(`Ícone selecionado: ${getIconDisplayName(selectedIconType)}`, 'info');
                 });
@@ -895,8 +1299,10 @@
         function getIconDisplayName(iconType) {
             const iconNames = {
                 'default': 'Ponto Padrão',
+                'nuvem': 'nuvem',
                 'radio': 'Rádio',
                 'torre': 'Torre',
+                'router': 'router',
                 'switch': 'Switch',
                 'dwdm': 'DWDM',
                 'atencao': 'Atenção'
@@ -911,7 +1317,8 @@
                 lng: latlng.lng, 
                 name: name, 
                 description: '',
-                iconType: selectedIconType
+                iconType: selectedIconType,
+                redundantConnections: []
             };
             currentRoutePoints.push(point);
 
@@ -923,63 +1330,380 @@
             showNotification(`Ponto "${name}" adicionado (${currentRoutePoints.length} pontos) - ${getIconDisplayName(selectedIconType)}`, 'success');
         }
 
-        function createEquipmentMarker(latlng, point, equipment = []) {
-            const marker = L.marker([latlng.lat, latlng.lng], { 
-                draggable: true,
-                icon: createCustomIcon(point.iconType, equipment.length)
-            }).addTo(map);
+        function addEquipmentFromPoint(latlng, name) {
+            const equipmentPoint = { 
+                id: Date.now(), 
+                lat: latlng.lat, 
+                lng: latlng.lng, 
+                name: name, 
+                description: `Equipamento conectado a ${equipmentOriginPoint.name}`,
+                iconType: selectedIconType,
+                connectedTo: equipmentOriginPoint.id
+            };
+            currentRoutePoints.push(equipmentPoint);
 
-            // Tooltip permanente (aparece ao passar o mouse)
-            const tooltipContent = generateEquipmentTooltip(point, equipment);
-            marker.bindTooltip(tooltipContent, {
-                permanent: false,
-                direction: 'top',
-                offset: [0, -10],
-                className: 'equipment-tooltip'
-            });
+            const marker = createEquipmentMarker(latlng, equipmentPoint);
+            currentMarkers.push(marker);
 
-            // Popup com mais detalhes (ao clicar)
-            const popupContent = generateEquipmentPopup(point, equipment);
-            marker.bindPopup(popupContent, {
-                maxWidth: 320,
-                className: 'equipment-popup'
-            });
+            createEquipmentConnection(equipmentOriginPoint, equipmentPoint);
 
-            marker.on('dragend', function(e) {
-                const newLatLng = e.target.getLatLng();
-                const pointIndex = currentRoutePoints.findIndex(p => p.id === point.id);
-                if (pointIndex !== -1) {
-                    currentRoutePoints[pointIndex].lat = newLatLng.lat;
-                    currentRoutePoints[pointIndex].lng = newLatLng.lng;
-                    updateRouteLine();
-                    updateCurrentPointsList();
-                }
-            });
-
-            // Adiciona evento para remover ponto ao clicar com botão direito
-            marker.on('contextmenu', function(e) {
-                e.originalEvent.preventDefault();
-                removePoint(point.id);
-            });
-
-            return marker;
+            updatePointsCounter();
+            updateCurrentPointsList();
+            
+            exitEquipmentMode();
+            
+            showNotification(`Equipamento "${name}" adicionado conectado ao ponto "${equipmentOriginPoint.name}"`, 'success');
         }
 
-        function createCustomIcon(iconType, equipmentCount) {
+        function startAddEquipmentMode() {
+            isAddingEquipment = true;
+            equipmentOriginPoint = null;
+            tempConnectionLine = null;
+            
+            document.getElementById('switchModeBanner').style.display = 'block';
+            document.getElementById('drawingStatus').style.display = 'none';
+            document.getElementById('addSwitchBtn').style.display = 'none';
+            document.getElementById('addRedundantConnectionBtn').style.display = 'none';
+            
+            map.on('mousemove', updateTempConnectionLine);
+            
+            showNotification('Modo Equipamento: Clique em um ponto existente para selecioná-lo como origem, depois clique no mapa para posicionar o equipamento', 'info');
+        }
+
+        function startAddRedundancyMode() {
+            isAddingRedundancy = true;
+            redundancyOriginPoint = null;
+            redundancyTargetPoint = null;
+            
+            document.getElementById('redundancyModeBanner').style.display = 'block';
+            document.getElementById('drawingStatus').style.display = 'none';
+            document.getElementById('addSwitchBtn').style.display = 'none';
+            document.getElementById('addRedundantConnectionBtn').style.display = 'none';
+            
+            // Adiciona classe de destaque a todos os pontos existentes
+            currentMarkers.forEach(marker => {
+                marker.getElement().classList.add('point-highlight');
+            });
+            
+            showNotification('Modo Redundância: Clique no ponto de ORIGEM primeiro, depois clique no ponto de DESTINO para criar a conexão redundante', 'info');
+        }
+
+        function selectEquipmentOrigin(point) {
+            if (!isAddingEquipment) return;
+            
+            equipmentOriginPoint = point;
+            
+            if (tempConnectionLine) {
+                map.removeLayer(tempConnectionLine);
+            }
+            
+            showNotification(`Ponto "${point.name}" selecionado como origem. Agora clique no mapa para posicionar o equipamento.`, 'success');
+        }
+
+        function selectPointForRedundancy(point) {
+            if (!isAddingRedundancy) return;
+            
+            if (!redundancyOriginPoint) {
+                // Primeiro clique - seleciona origem
+                redundancyOriginPoint = point;
+                
+                // Remove destaque de todos os pontos
+                currentMarkers.forEach(marker => {
+                    marker.getElement().classList.remove('point-highlight');
+                });
+                
+                // Adiciona destaque apenas aos pontos que podem ser destino (excluindo a origem)
+                currentMarkers.forEach(marker => {
+                    const markerPoint = currentRoutePoints.find(p => 
+                        p.lat === marker.getLatLng().lat && 
+                        p.lng === marker.getLatLng().lng
+                    );
+                    if (markerPoint && markerPoint.id !== redundancyOriginPoint.id) {
+                        marker.getElement().classList.add('point-highlight');
+                    }
+                });
+                
+                showNotification(`Origem selecionada: "${point.name}". Agora clique no ponto de DESTINO para a conexão redundante.`, 'success');
+            } else {
+                // Segundo clique - seleciona destino
+                redundancyTargetPoint = point;
+                
+                // Verifica se já existe uma conexão entre esses pontos
+                const existingConnection = redundancyConnections.find(conn => 
+                    (conn.originId === redundancyOriginPoint.id && conn.targetId === redundancyTargetPoint.id) ||
+                    (conn.originId === redundancyTargetPoint.id && conn.targetId === redundancyOriginPoint.id)
+                );
+                
+                if (existingConnection) {
+                    showNotification('Já existe uma conexão de redundância entre estes pontos!', 'error');
+                    resetRedundancySelection();
+                    return;
+                }
+                
+                // Verifica se é uma conexão para si mesmo
+                if (redundancyOriginPoint.id === redundancyTargetPoint.id) {
+                    showNotification('Não é possível criar uma conexão redundante para o mesmo ponto!', 'error');
+                    resetRedundancySelection();
+                    return;
+                }
+                
+                // Abre o modal para configurar a conexão
+                openRedundancyModal();
+            }
+        }
+
+        function resetRedundancySelection() {
+            redundancyOriginPoint = null;
+            redundancyTargetPoint = null;
+            
+            // Restaura destaque em todos os pontos
+            currentMarkers.forEach(marker => {
+                marker.getElement().classList.add('point-highlight');
+            });
+            
+            showNotification('Seleção resetada. Clique no ponto de ORIGEM para começar novamente.', 'info');
+        }
+
+        function updateTempConnectionLine(e) {
+            if (!isAddingEquipment || !equipmentOriginPoint) return;
+            
+            if (tempConnectionLine) {
+                map.removeLayer(tempConnectionLine);
+            }
+            
+            tempConnectionLine = L.polyline([
+                [equipmentOriginPoint.lat, equipmentOriginPoint.lng],
+                [e.latlng.lat, e.latlng.lng]
+            ], { 
+                color: getConnectionColor(selectedIconType), 
+                weight: 2, 
+                opacity: 0.6,
+                dashArray: '5, 10'
+            }).addTo(map);
+        }
+
+        function openRedundancyModal() {
+            if (!redundancyOriginPoint || !redundancyTargetPoint) return;
+            
+            document.getElementById('redundancyOriginInfo').textContent = `Origem: ${redundancyOriginPoint.name}`;
+            document.getElementById('redundancyTargetInfo').textContent = `Destino: ${redundancyTargetPoint.name}`;
+            
+            document.getElementById('redundancyModal').style.display = 'flex';
+        }
+
+        function closeRedundancyModal() {
+            document.getElementById('redundancyModal').style.display = 'none';
+            resetRedundancySelection();
+        }
+
+        function saveRedundancyConnection() {
+            if (!redundancyOriginPoint || !redundancyTargetPoint) return;
+
+            const redundancyType = document.getElementById('redundancyType').value;
+            const description = document.getElementById('redundancyDescription').value;
+
+            // Cria a conexão de redundância
+            createRedundancyConnection(
+                redundancyOriginPoint, 
+                redundancyTargetPoint, 
+                redundancyType,
+                description
+            );
+
+            // Adiciona a referência da conexão nos pontos de origem e destino
+            const originPointIndex = currentRoutePoints.findIndex(p => p.id === redundancyOriginPoint.id);
+            const targetPointIndex = currentRoutePoints.findIndex(p => p.id === redundancyTargetPoint.id);
+            
+            if (originPointIndex !== -1) {
+                if (!currentRoutePoints[originPointIndex].redundantConnections) {
+                    currentRoutePoints[originPointIndex].redundantConnections = [];
+                }
+                currentRoutePoints[originPointIndex].redundantConnections.push({
+                    targetId: redundancyTargetPoint.id,
+                    type: redundancyType,
+                    description: description,
+                    direction: 'outgoing'
+                });
+            }
+            
+            if (targetPointIndex !== -1) {
+                if (!currentRoutePoints[targetPointIndex].redundantConnections) {
+                    currentRoutePoints[targetPointIndex].redundantConnections = [];
+                }
+                currentRoutePoints[targetPointIndex].redundantConnections.push({
+                    targetId: redundancyOriginPoint.id,
+                    type: redundancyType,
+                    description: description,
+                    direction: 'incoming'
+                });
+            }
+
+            // Atualiza os marcadores para mostrar o badge de redundância
+            updateMarkerRedundancyBadge(redundancyOriginPoint.id);
+            updateMarkerRedundancyBadge(redundancyTargetPoint.id);
+
+            showNotification(`Conexão de redundância ${getRedundancyTypeDisplay(redundancyType)} criada entre ${redundancyOriginPoint.name} e ${redundancyTargetPoint.name}!`, 'success');
+            closeRedundancyModal();
+            exitRedundancyMode();
+        }
+
+        function updateMarkerRedundancyBadge(pointId) {
+            const point = currentRoutePoints.find(p => p.id === pointId);
+            if (!point) return;
+
+            const marker = currentMarkers.find(m => {
+                const latLng = m.getLatLng();
+                return latLng.lat === point.lat && latLng.lng === point.lng;
+            });
+
+            if (marker) {
+                const equipment = getEquipmentForPoint(point.id);
+                const popupContent = generateEquipmentPopup(point, equipment);
+                marker.bindPopup(popupContent);
+
+                const tooltipContent = generateEquipmentTooltip(point, equipment);
+                marker.bindTooltip(tooltipContent, {
+                    permanent: false,
+                    direction: 'top',
+                    offset: [0, -15],
+                    className: 'equipment-tooltip',
+                    opacity: 0.95
+                });
+            }
+        }
+
+        function exitEquipmentMode() {
+            isAddingEquipment = false;
+            equipmentOriginPoint = null;
+            
+            if (tempConnectionLine) {
+                map.removeLayer(tempConnectionLine);
+                tempConnectionLine = null;
+            }
+            
+            map.off('mousemove', updateTempConnectionLine);
+            
+            document.getElementById('switchModeBanner').style.display = 'none';
+            if (drawingMode && !isEditMode) {
+                document.getElementById('drawingStatus').style.display = 'block';
+            }
+            
+            if (isEditMode) {
+                document.getElementById('addSwitchBtn').style.display = 'block';
+                document.getElementById('addRedundantConnectionBtn').style.display = 'block';
+            }
+        }
+
+        function exitRedundancyMode() {
+            isAddingRedundancy = false;
+            redundancyOriginPoint = null;
+            redundancyTargetPoint = null;
+            
+            // Remove destaque de todos os pontos
+            currentMarkers.forEach(marker => {
+                marker.getElement().classList.remove('point-highlight');
+            });
+            
+            document.getElementById('redundancyModeBanner').style.display = 'none';
+            if (drawingMode && !isEditMode) {
+                document.getElementById('drawingStatus').style.display = 'block';
+            }
+            
+            if (isEditMode) {
+                document.getElementById('addSwitchBtn').style.display = 'block';
+                document.getElementById('addRedundantConnectionBtn').style.display = 'block';
+            }
+        }
+
+        function createEquipmentConnection(originPoint, equipmentPoint) {
+            const connectionLine = L.polyline([
+                [originPoint.lat, originPoint.lng],
+                [equipmentPoint.lat, equipmentPoint.lng]
+            ], { 
+                color: getConnectionColor(equipmentPoint.iconType), 
+                weight: 3, 
+                opacity: 0.8,
+                dashArray: '5, 10',
+                className: 'equipment-connection'
+            }).addTo(map);
+
+            const connection = {
+                originId: originPoint.id,
+                equipmentId: equipmentPoint.id,
+                line: connectionLine
+            };
+            equipmentConnections.push(connection);
+        }
+
+        function createRedundancyConnection(originPoint, targetPoint, connectionType, description) {
+            const connectionLine = L.polyline([
+                [originPoint.lat, originPoint.lng],
+                [targetPoint.lat, targetPoint.lng]
+            ], { 
+                color: getRedundancyConnectionColor(connectionType), 
+                weight: connectionType === 'primary' ? 4 : 3, 
+                opacity: 0.7,
+                dashArray: connectionType === 'backup' ? '15, 10' : '10, 5',
+                className: `redundancy-connection connection-${connectionType}`
+            }).addTo(map);
+
+            const connection = {
+                originId: originPoint.id,
+                targetId: targetPoint.id,
+                type: connectionType,
+                description: description,
+                line: connectionLine
+            };
+            redundancyConnections.push(connection);
+        }
+
+        function getConnectionColor(iconType) {
+            const colors = {
+                'switch': '#2ecc71',
+                'radio': '#e74c3c',
+                'dwdm': '#9b59b6',
+                'default': '#3498db',
+                'torre': '#f39c12',
+                'atencao': '#e67e22'
+            };
+            return colors[iconType] || '#3498db';
+        }
+
+        function getRedundancyConnectionColor(connectionType) {
+            const colors = {
+                'primary': '#2ecc71',
+                'secondary': '#3498db',
+                'backup': '#f39c12'
+            };
+            return colors[connectionType] || '#3498db';
+        }
+
+        function getRedundancyTypeDisplay(type) {
+            const types = {
+                'primary': 'Primária',
+                'secondary': 'Secundária', 
+                'backup': 'Backup'
+            };
+            return types[type] || type;
+        }
+
+        function createCustomIcon(iconType, equipmentCount, redundantConnections = []) {
             const hasEquipment = equipmentCount > 0;
+            const hasRedundancy = redundantConnections && redundantConnections.length > 0;
             const iconUrl = `icones/${iconType}.png`;
 
             const html = `
                 <div style="
-                    width: ${hasEquipment ? '36px' : '30px'}; 
-                    height: ${hasEquipment ? '36px' : '30px'}; 
+                    width: ${hasEquipment || hasRedundancy ? '36px' : '30px'}; 
+                    height: ${hasEquipment || hasRedundancy ? '36px' : '30px'}; 
                     display: flex; 
                     align-items: center; 
                     justify-content: center; 
                     position: relative;
                     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+                    ${(isAddingEquipment || isAddingRedundancy) ? 'animation: pulse 1.5s infinite;' : ''}
                 ">
-                    <img src="${iconUrl}" style="width: ${hasEquipment ? '32px' : '26px'}; height: ${hasEquipment ? '32px' : '26px'}; object-fit: contain;">
+                    <img src="${iconUrl}" style="width: ${hasEquipment || hasRedundancy ? '32px' : '26px'}; height: ${hasEquipment || hasRedundancy ? '32px' : '26px'}; object-fit: contain;">
                     ${hasEquipment ? `
                         <div style="
                             position: absolute;
@@ -999,22 +1723,157 @@
                             box-shadow: 0 1px 3px rgba(0,0,0,0.3);
                         ">${equipmentCount}</div>
                     ` : ''}
+                    ${hasRedundancy ? `
+                        <div style="
+                            position: absolute;
+                            bottom: -5px;
+                            left: -5px;
+                            background: #f39c12;
+                            color: white;
+                            border-radius: 50%;
+                            width: 16px;
+                            height: 16px;
+                            font-size: 8px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border: 1px solid white;
+                            font-weight: bold;
+                            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+                        ">R</div>
+                    ` : ''}
                 </div>
+                <style>
+                    @keyframes pulse {
+                        0% { transform: scale(1); }
+                        50% { transform: scale(1.1); }
+                        100% { transform: scale(1); }
+                    }
+                </style>
             `;
 
             return L.divIcon({
                 html: html,
                 className: 'custom-marker',
-                iconSize: hasEquipment ? [36, 36] : [30, 30],
-                iconAnchor: hasEquipment ? [18, 18] : [15, 15]
+                iconSize: hasEquipment || hasRedundancy ? [36, 36] : [30, 30],
+                iconAnchor: hasEquipment || hasRedundancy ? [18, 18] : [15, 15]
             });
+        }
+
+        function createEquipmentMarker(latlng, point, equipment = []) {
+            const marker = L.marker([latlng.lat, latlng.lng], { 
+                draggable: true,
+                icon: createCustomIcon(point.iconType, equipment.length, point.redundantConnections)
+            }).addTo(map);
+
+            // Tooltip permanente
+            const tooltipContent = generateEquipmentTooltip(point, equipment);
+            marker.bindTooltip(tooltipContent, {
+                permanent: false,
+                direction: 'top',
+                offset: [0, -15],
+                className: 'equipment-tooltip',
+                opacity: 0.95
+            });
+
+            // Popup com mais detalhes
+            const popupContent = generateEquipmentPopup(point, equipment);
+            marker.bindPopup(popupContent, {
+                maxWidth: 450,
+                minWidth: 300,
+                className: 'equipment-popup'
+            });
+
+            marker.on('dragend', function(e) {
+                const newLatLng = e.target.getLatLng();
+                const pointIndex = currentRoutePoints.findIndex(p => p.id === point.id);
+                if (pointIndex !== -1) {
+                    currentRoutePoints[pointIndex].lat = newLatLng.lat;
+                    currentRoutePoints[pointIndex].lng = newLatLng.lng;
+                    
+                    updateEquipmentConnections(point);
+                    updateRedundancyConnections(point);
+                    updateRouteLine();
+                    updateCurrentPointsList();
+                }
+            });
+
+            marker.on('contextmenu', function(e) {
+                e.originalEvent.preventDefault();
+                showPointContextMenu(point, e.originalEvent);
+            });
+
+            // MODIFICAÇÃO IMPORTANTE: Adiciona lógica para seleção de redundância
+            marker.on('click', function(e) {
+                if (isAddingEquipment && !equipmentOriginPoint) {
+                    selectEquipmentOrigin(point);
+                } else if (isAddingRedundancy) {
+                    selectPointForRedundancy(point);
+                }
+            });
+
+            return marker;
+        }
+
+        function showPointContextMenu(point, event) {
+            // Remove menu anterior se existir
+            const existingMenu = document.getElementById('pointContextMenu');
+            if (existingMenu) {
+                existingMenu.remove();
+            }
+
+            // Cria o menu de contexto
+            const contextMenu = document.createElement('div');
+            contextMenu.id = 'pointContextMenu';
+            contextMenu.style.cssText = `
+                position: fixed;
+                background: white;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                z-index: 10000;
+                min-width: 150px;
+            `;
+
+            contextMenu.innerHTML = `
+                <div style="padding: 0.5rem; border-bottom: 1px solid #eee; cursor: pointer; display: flex; align-items: center; gap: 8px;"
+                     onclick="renamePoint(${point.id}); document.getElementById('pointContextMenu').remove();">
+                    <i class="fas fa-edit" style="color: #3498db;"></i>
+                    Renomear
+                </div>
+                <div style="padding: 0.5rem; cursor: pointer; display: flex; align-items: center; gap: 8px; color: #e74c3c;"
+                     onclick="removePoint(${point.id}); document.getElementById('pointContextMenu').remove();">
+                    <i class="fas fa-trash"></i>
+                    Remover
+                </div>
+            `;
+
+            document.body.appendChild(contextMenu);
+
+            // Posiciona o menu no local do clique
+            contextMenu.style.left = event.clientX + 'px';
+            contextMenu.style.top = event.clientY + 'px';
+
+            // Remove o menu ao clicar fora
+            const removeMenu = function(e) {
+                if (!contextMenu.contains(e.target)) {
+                    contextMenu.remove();
+                    document.removeEventListener('click', removeMenu);
+                }
+            };
+            setTimeout(() => document.addEventListener('click', removeMenu), 100);
         }
 
         function removePoint(pointId) {
             if (confirm('Remover este ponto?')) {
+                const point = currentRoutePoints.find(p => p.id === pointId);
+                
+                // Remove todas as conexões relacionadas a este ponto
+                removeEquipmentConnections(pointId);
+                removeRedundancyConnections(pointId);
+                
                 // Remove o marcador do mapa
                 const markerIndex = currentMarkers.findIndex(marker => {
-                    const point = currentRoutePoints.find(p => p.id === pointId);
                     return marker.getLatLng().lat === point.lat && marker.getLatLng().lng === point.lng;
                 });
                 
@@ -1031,6 +1890,84 @@
                 updateCurrentPointsList();
                 showNotification('Ponto removido', 'info');
             }
+        }
+
+        function removeEquipmentConnections(pointId) {
+            // Remove todas as conexões que envolvem este ponto
+            equipmentConnections = equipmentConnections.filter(connection => {
+                if (connection.originId === pointId || connection.equipmentId === pointId) {
+                    map.removeLayer(connection.line);
+                    return false;
+                }
+                return true;
+            });
+        }
+
+        function removeRedundancyConnections(pointId) {
+            // Remove todas as conexões de redundância que envolvem este ponto
+            redundancyConnections = redundancyConnections.filter(connection => {
+                if (connection.originId === pointId || connection.targetId === pointId) {
+                    map.removeLayer(connection.line);
+                    return false;
+                }
+                return true;
+            });
+        }
+
+        function updateEquipmentConnections(updatedPoint) {
+            // Atualiza todas as conexões relacionadas a este ponto
+            equipmentConnections.forEach(connection => {
+                if (connection.originId === updatedPoint.id || connection.equipmentId === updatedPoint.id) {
+                    // Remove a linha antiga
+                    map.removeLayer(connection.line);
+                    
+                    // Encontra os pontos atualizados
+                    const originPoint = currentRoutePoints.find(p => p.id === connection.originId);
+                    const equipmentPoint = currentRoutePoints.find(p => p.id === connection.equipmentId);
+                    
+                    if (originPoint && equipmentPoint) {
+                        // Cria nova linha com as coordenadas atualizadas
+                        connection.line = L.polyline([
+                            [originPoint.lat, originPoint.lng],
+                            [equipmentPoint.lat, equipmentPoint.lng]
+                        ], { 
+                            color: getConnectionColor(equipmentPoint.iconType), 
+                            weight: 3, 
+                            opacity: 0.8,
+                            dashArray: '5, 10',
+                            className: 'equipment-connection'
+                        }).addTo(map);
+                    }
+                }
+            });
+        }
+
+        function updateRedundancyConnections(updatedPoint) {
+            // Atualiza todas as conexões de redundância relacionadas a este ponto
+            redundancyConnections.forEach(connection => {
+                if (connection.originId === updatedPoint.id || connection.targetId === updatedPoint.id) {
+                    // Remove a linha antiga
+                    map.removeLayer(connection.line);
+                    
+                    // Encontra os pontos atualizados
+                    const originPoint = currentRoutePoints.find(p => p.id === connection.originId);
+                    const targetPoint = currentRoutePoints.find(p => p.id === connection.targetId);
+                    
+                    if (originPoint && targetPoint) {
+                        // Cria nova linha com as coordenadas atualizadas
+                        connection.line = L.polyline([
+                            [originPoint.lat, originPoint.lng],
+                            [targetPoint.lat, targetPoint.lng]
+                        ], { 
+                            color: getRedundancyConnectionColor(connection.type), 
+                            weight: connection.type === 'primary' ? 4 : 3, 
+                            opacity: 0.7,
+                            dashArray: connection.type === 'backup' ? '15, 10' : '10, 5',
+                            className: `redundancy-connection connection-${connection.type}`
+                        }).addTo(map);
+                    }
+                }
+            });
         }
 
         function updatePointsCounter() {
@@ -1050,46 +1987,194 @@
             currentRoutePoints.forEach((point, index) => {
                 const pointItem = document.createElement('div');
                 pointItem.className = 'point-item';
+                
+                const connectionInfo = point.connectedTo ? 
+                    `<div style="font-size: 0.65rem; color: #27ae60; margin-top: 2px;">
+                        <i class="fas fa-link"></i> Conectado a ${getPointName(point.connectedTo)}
+                    </div>` : '';
+                
+                const redundancyInfo = point.redundantConnections && point.redundantConnections.length > 0 ? 
+                    `<div style="font-size: 0.65rem; color: #f39c12; margin-top: 2px;">
+                        <i class="fas fa-sitemap"></i> ${point.redundantConnections.length} conexão(ões) de redundância
+                    </div>` : '';
+                
                 pointItem.innerHTML = `
-                    <div style="display: flex; justify-content: between; align-items: center;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="flex: 1;">
                             <strong>${point.name}</strong>
                             <div style="font-size: 0.7rem; color: #666;">
                                 ${getIconDisplayName(point.iconType)} • ${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}
                             </div>
+                            ${point.description ? `<div style="font-size: 0.65rem; color: #7f8c8d; margin-top: 2px;">${point.description}</div>` : ''}
+                            ${connectionInfo}
+                            ${redundancyInfo}
                         </div>
-                        <button onclick="removePoint(${point.id})" style="background: var(--accent-color); color: white; border: none; border-radius: 3px; padding: 2px 6px; font-size: 0.6rem; cursor: pointer; margin-left: 5px;" title="Remover ponto">
-                            <i class="fas fa-times"></i>
-                        </button>
+                        <div style="display: flex; gap: 5px;">
+                            <button onclick="renamePoint(${point.id})" style="background: var(--info-color); color: white; border: none; border-radius: 3px; padding: 2px 6px; font-size: 0.6rem; cursor: pointer;" title="Renomear ponto">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="removePoint(${point.id})" style="background: var(--accent-color); color: white; border: none; border-radius: 3px; padding: 2px 6px; font-size: 0.6rem; cursor: pointer;" title="Remover ponto">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
                 `;
                 pointsList.appendChild(pointItem);
             });
         }
 
+        function getPointName(pointId) {
+            const point = currentRoutePoints.find(p => p.id === pointId);
+            return point ? point.name : 'Ponto desconhecido';
+        }
+
+        function renamePoint(pointId) {
+            const point = currentRoutePoints.find(p => p.id === pointId);
+            if (!point) return;
+
+            currentRenamingPoint = point;
+            document.getElementById('newPointName').value = point.name;
+            document.getElementById('newPointDescription').value = point.description || '';
+            document.getElementById('renameModal').style.display = 'flex';
+        }
+
+        function closeRenameModal() {
+            document.getElementById('renameModal').style.display = 'none';
+            currentRenamingPoint = null;
+        }
+
+        function savePointName() {
+            if (!currentRenamingPoint) return;
+
+            const newName = document.getElementById('newPointName').value.trim();
+            const newDescription = document.getElementById('newPointDescription').value.trim();
+
+            if (!newName) {
+                showNotification('O nome do ponto não pode estar vazio!', 'error');
+                return;
+            }
+
+            // Atualiza o ponto
+            const pointIndex = currentRoutePoints.findIndex(p => p.id === currentRenamingPoint.id);
+            if (pointIndex !== -1) {
+                currentRoutePoints[pointIndex].name = newName;
+                currentRoutePoints[pointIndex].description = newDescription;
+
+                // Atualiza o marcador no mapa
+                updateMarkerPopup(currentRoutePoints[pointIndex]);
+
+                // Atualiza a lista de pontos
+                updateCurrentPointsList();
+
+                showNotification(`Ponto renomeado para "${newName}"`, 'success');
+            }
+
+            closeRenameModal();
+        }
+
+        function updateMarkerPopup(point) {
+            // Encontra o marcador correspondente e atualiza seu popup
+            const marker = currentMarkers.find(m => {
+                const latLng = m.getLatLng();
+                return latLng.lat === point.lat && latLng.lng === point.lng;
+            });
+
+            if (marker) {
+                const equipment = getEquipmentForPoint(point.id);
+                const popupContent = generateEquipmentPopup(point, equipment);
+                marker.bindPopup(popupContent);
+
+                // Atualiza também o tooltip
+                const tooltipContent = generateEquipmentTooltip(point, equipment);
+                marker.bindTooltip(tooltipContent, {
+                    permanent: false,
+                    direction: 'top',
+                    offset: [0, -15],
+                    className: 'equipment-tooltip',
+                    opacity: 0.95
+                });
+            }
+        }
+
+        function getEquipmentForPoint(pointId) {
+            if (!currentRouteId) return [];
+            const route = routes.find(r => r.id === currentRouteId);
+            if (!route || !route.equipment) return [];
+            return route.equipment.filter(equip => equip.pointId === pointId);
+        }
+
         function generateEquipmentTooltip(point, equipment) {
-            const pointName = point.name.length > 50 ? point.name.substring(0, 47) + '...' : point.name;
+            const pointName = point.name.length > 40 ? point.name.substring(0, 37) + '...' : point.name;
+            const iconUrl = `icones/${point.iconType}.png`;
             
             let content = `
-                <div class="equipment-tooltip-header multi-line">
-                    ${getIconDisplayName(point.iconType)}: ${pointName}
+                <div class="equipment-tooltip-header">
+                    <img src="${iconUrl}" class="tooltip-icon" alt="${getIconDisplayName(point.iconType)}">
+                    <span class="multi-line">${pointName}</span>
+                    ${point.redundantConnections && point.redundantConnections.length > 0 ? 
+                        `<span class="redundancy-badge">${point.redundantConnections.length}R</span>` : ''}
                 </div>`;
             
+            if (point.connectedTo) {
+                const originPoint = currentRoutePoints.find(p => p.id === point.connectedTo);
+                if (originPoint) {
+                    content += `<div class="equipment-details" style="background: #e8f5e8; padding: 5px; border-radius: 3px; margin-bottom: 8px;">
+                        <i class="fas fa-link"></i> Conectado a: ${originPoint.name}
+                    </div>`;
+                }
+            }
+            
+            // Mostrar informações de redundância
+            if (point.redundantConnections && point.redundantConnections.length > 0) {
+                const outgoingConnections = point.redundantConnections.filter(conn => conn.direction === 'outgoing');
+                if (outgoingConnections.length > 0) {
+                    content += `<div class="connection-info">
+                        <i class="fas fa-sitemap"></i> ${outgoingConnections.length} conexão(ões) de redundância
+                    </div>`;
+                }
+            }
+            
             if (equipment.length === 0) {
-                content += `<div class="no-equipment">Sem equipamentos</div>`;
+                content += `<div class="no-equipment">Sem equipamentos cadastrados</div>`;
             } else {
+                // Resumo dos equipamentos
+                const equipmentTypes = {};
+                equipment.forEach(equip => {
+                    equipmentTypes[equip.type] = (equipmentTypes[equip.type] || 0) + 1;
+                });
+                
+                content += `<div class="tooltip-summary">`;
+                content += `<div class="summary-item"><span class="summary-label">Total:</span><span class="summary-value">${equipment.length} equipamentos</span></div>`;
+                
+                Object.keys(equipmentTypes).slice(0, 3).forEach(type => {
+                    content += `<div class="summary-item"><span class="summary-label">${getEquipmentTypeDisplay(type)}:</span><span class="summary-value">${equipmentTypes[type]}</span></div>`;
+                });
+                
+                if (Object.keys(equipmentTypes).length > 3) {
+                    content += `<div class="summary-item"><span class="summary-label">Outros:</span><span class="summary-value">+${Object.keys(equipmentTypes).length - 3}</span></div>`;
+                }
+                content += `</div>`;
+                
+                // Mostra apenas os primeiros 3 equipamentos no tooltip
                 equipment.slice(0, 3).forEach(equip => {
-                    const equipName = equip.name.length > 30 ? equip.name.substring(0, 27) + '...' : equip.name;
+                    const equipName = equip.name.length > 35 ? equip.name.substring(0, 32) + '...' : equip.name;
+                    const equipModel = equip.model && equip.model.length > 25 ? equip.model.substring(0, 22) + '...' : equip.model;
+                    
                     content += `
                         <div class="equipment-tooltip-item">
                             <div class="equipment-name multi-line">${equipName}</div>
-                            <div class="equipment-details multi-line">${getEquipmentTypeDisplay(equip.type)}${equip.model ? ` - ${equip.model}` : ''}</div>
+                            <div class="equipment-details multi-line">
+                                <span class="equipment-type-badge">${getEquipmentTypeDisplay(equip.type)}</span>
+                                ${equipModel ? ` - ${equipModel}` : ''}
+                            </div>
                         </div>
                     `;
                 });
                 
                 if (equipment.length > 3) {
-                    content += `<div class="equipment-details">+ ${equipment.length - 3} mais</div>`;
+                    content += `<div class="equipment-details" style="text-align: center; margin-top: 5px; font-weight: 500;">
+                        + ${equipment.length - 3} equipamentos
+                    </div>`;
                 }
             }
             
@@ -1097,49 +2182,130 @@
         }
 
         function generateEquipmentPopup(point, equipment) {
-            const pointName = point.name.length > 80 ? point.name.substring(0, 77) + '...' : point.name;
+            const pointName = point.name.length > 60 ? point.name.substring(0, 57) + '...' : point.name;
+            const iconUrl = `icones/${point.iconType}.png`;
             
             let content = `
                 <div class="popup-content">
-                    <div class="popup-header multi-line">
-                        ${getIconDisplayName(point.iconType)}: ${pointName}
+                    <div class="popup-header">
+                        <img src="${iconUrl}" class="popup-icon" alt="${getIconDisplayName(point.iconType)}">
+                        <span class="multi-line">${pointName}</span>
+                        ${point.redundantConnections && point.redundantConnections.length > 0 ? 
+                            `<span class="redundancy-badge">${point.redundantConnections.length}R</span>` : ''}
                     </div>
                     <div class="popup-coordinates">
-                        Coordenadas: ${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}
+                        <i class="fas fa-map-marker-alt"></i> ${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}
                     </div>
             `;
 
-            if (point.description) {
-                const description = point.description.length > 100 ? point.description.substring(0, 97) + '...' : point.description;
-                content += `<div class="popup-description multi-line">${description}</div>`;
+            if (point.connectedTo) {
+                const originPoint = currentRoutePoints.find(p => p.id === point.connectedTo);
+                if (originPoint) {
+                    content += `<div class="popup-description multi-line" style="background: #e8f5e8; border-left: 3px solid #27ae60;">
+                        <i class="fas fa-link"></i> <strong>Conectado a:</strong> ${originPoint.name}
+                    </div>`;
+                }
             }
+
+            // Mostrar conexões de redundância
+            if (point.redundantConnections && point.redundantConnections.length > 0) {
+                const outgoingConnections = point.redundantConnections.filter(conn => conn.direction === 'outgoing');
+                if (outgoingConnections.length > 0) {
+                    content += `<div class="equipment-section">
+                        <div class="equipment-section-title">
+                            <i class="fas fa-sitemap"></i> Conexões de Redundância (${outgoingConnections.length})
+                        </div>`;
+                    
+                    outgoingConnections.forEach(conn => {
+                        const targetPoint = currentRoutePoints.find(p => p.id === conn.targetId);
+                        if (targetPoint) {
+                            content += `
+                                <div class="equipment-item-popup">
+                                    <div class="equipment-name-popup multi-line">
+                                        <i class="fas fa-link"></i> ${targetPoint.name}
+                                    </div>
+                                    <div class="equipment-details-popup">
+                                        <div class="detail-row">
+                                            <span class="detail-label">Tipo:</span>
+                                            <span class="detail-value">${getRedundancyTypeDisplay(conn.type)}</span>
+                                        </div>
+                                        ${conn.description ? `
+                                            <div class="detail-row">
+                                                <span class="detail-label">Descrição:</span>
+                                                <span class="detail-value multi-line">${conn.description}</span>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    content += `</div>`;
+                }
+            }
+
+         
+
+            // Botão para renomear
+            content += `
+                <div style="margin: 10px 0; text-align: center;">
+                    <button onclick="renamePoint(${point.id}); map.closePopup();" 
+                            class="view-equipment-btn" 
+                            style="background: var(--info-color);">
+                        <i class="fas fa-edit"></i> Renomear Ponto
+                    </button>
+                </div>
+            `;
 
             if (equipment.length === 0) {
                 content += `
-                    <div class="no-equipment" style="text-align: center; padding: 10px 0;">
+                    <div class="no-equipment" style="text-align: center; padding: 15px 0; background: #f8f9fa; border-radius: 6px;">
+                        <i class="fas fa-server" style="font-size: 1.5rem; color: #ccc; margin-bottom: 8px; display: block;"></i>
                         Nenhum equipamento cadastrado
                     </div>
                 `;
             } else {
                 content += `
                     <div class="equipment-section">
-                        <div class="equipment-section-title">Equipamentos (${equipment.length})</div>
+                        <div class="equipment-section-title">
+                            <i class="fas fa-server"></i> Equipamentos (${equipment.length})
+                        </div>
                 `;
                 
                 equipment.forEach(equip => {
                     const equipName = equip.name.length > 50 ? equip.name.substring(0, 47) + '...' : equip.name;
-                    const equipModel = equip.model && equip.model.length > 30 ? equip.model.substring(0, 27) + '...' : equip.model;
-                    const equipConfig = equip.config && equip.config.length > 60 ? equip.config.substring(0, 57) + '...' : equip.config;
-                    const equipComments = equip.comments && equip.comments.length > 60 ? equip.comments.substring(0, 57) + '...' : equip.comments;
+                    const equipModel = equip.model && equip.model.length > 40 ? equip.model.substring(0, 37) + '...' : equip.model;
+                    const equipConfig = equip.config && equip.config.length > 80 ? equip.config.substring(0, 77) + '...' : equip.config;
+                    const equipComments = equip.comments && equip.comments.length > 80 ? equip.comments.substring(0, 77) + '...' : equip.comments;
                     
                     content += `
                         <div class="equipment-item-popup">
-                            <div class="equipment-name-popup multi-line">${equipName}</div>
-                            <div class="equipment-details-popup multi-line">
-                                <strong>Tipo:</strong> ${getEquipmentTypeDisplay(equip.type)}<br>
-                                ${equipModel ? `<strong>Modelo:</strong> ${equipModel}<br>` : ''}
-                                ${equipConfig ? `<strong>Configuração:</strong> ${equipConfig}<br>` : ''}
-                                ${equipComments ? `<strong>Observações:</strong> ${equipComments}` : ''}
+                            <div class="equipment-name-popup multi-line">
+                                <i class="fas fa-cube"></i> ${equipName}
+                            </div>
+                            <div class="equipment-details-popup">
+                                <div class="detail-row">
+                                    <span class="detail-label">Tipo:</span>
+                                    <span class="detail-value">${getEquipmentTypeDisplay(equip.type)}</span>
+                                </div>
+                                ${equipModel ? `
+                                    <div class="detail-row">
+                                        <span class="detail-label">Modelo:</span>
+                                        <span class="detail-value multi-line">${equipModel}</span>
+                                    </div>
+                                ` : ''}
+                                ${equipConfig ? `
+                                    <div class="detail-row">
+                                        <span class="detail-label">Config:</span>
+                                        <span class="detail-value multi-line">${equipConfig}</span>
+                                    </div>
+                                ` : ''}
+                                ${equipComments ? `
+                                    <div class="detail-row">
+                                        <span class="detail-label">Obs:</span>
+                                        <span class="detail-value multi-line">${equipComments}</span>
+                                    </div>
+                                ` : ''}
                             </div>
                         </div>
                     `;
@@ -1148,8 +2314,40 @@
                 content += `</div>`;
             }
 
+            // Adiciona botão para adicionar redundância (apenas no modo edição)
+            if (isEditMode) {
+                content += `
+                    <div style="margin-top: 15px; text-align: center;">
+                        <button onclick="startAddEquipmentModeFromPopup(${point.id})" class="view-equipment-btn" style="width: 100%; margin-bottom: 5px;">
+                            <i class="fas fa-plus"></i> Adicionar Equipamento Conectado
+                        </button>
+                        <button onclick="startAddRedundancyModeFromPopup(${point.id})" class="view-equipment-btn" style="width: 100%; background-color: var(--warning-color);">
+                            <i class="fas fa-sitemap"></i> Adicionar Conexão de Redundância
+                        </button>
+                    </div>
+                `;
+            }
+
             content += `</div>`;
             return content;
+        }
+
+        function startAddEquipmentModeFromPopup(pointId) {
+            const point = currentRoutePoints.find(p => p.id === pointId);
+            if (point) {
+                startAddEquipmentMode();
+                selectEquipmentOrigin(point);
+                map.closePopup();
+            }
+        }
+
+        function startAddRedundancyModeFromPopup(pointId) {
+            const point = currentRoutePoints.find(p => p.id === pointId);
+            if (point) {
+                startAddRedundancyMode();
+                selectPointForRedundancy(point);
+                map.closePopup();
+            }
         }
 
         function loadAllEquipmentMarkers() {
@@ -1171,29 +2369,63 @@
 
         function updateRouteLine() {
             if (currentPolyline) map.removeLayer(currentPolyline);
-            if (currentRoutePoints.length >= 2) {
-                const latlngs = currentRoutePoints.map(p => [p.lat, p.lng]);
-                currentPolyline = L.polyline(latlngs, { color: '#3498db', weight: 4, opacity: 0.7 }).addTo(map);
+            
+            // Filtra apenas os pontos principais (não equipamentos conectados e não pontos de redundância)
+            const mainPoints = currentRoutePoints.filter(point => !point.connectedTo && !point.isRedundancy);
+            
+            if (mainPoints.length >= 2) {
+                const latlngs = mainPoints.map(p => [p.lat, p.lng]);
+                currentPolyline = L.polyline(latlngs, { 
+                    color: '#3498db', 
+                    weight: 4, 
+                    opacity: 0.7 
+                }).addTo(map);
             }
         }
 
         function clearDrawing() {
             currentMarkers.forEach(marker => map.removeLayer(marker));
             if (currentPolyline) map.removeLayer(currentPolyline);
+            
+            // Remove todas as conexões de equipamentos
+            equipmentConnections.forEach(connection => {
+                map.removeLayer(connection.line);
+            });
+            equipmentConnections = [];
+            
+            // Remove todas as conexões de redundância
+            redundancyConnections.forEach(connection => {
+                map.removeLayer(connection.line);
+            });
+            redundancyConnections = [];
+            
             currentMarkers = [];
             currentRoutePoints = [];
             currentPolyline = null;
             document.getElementById('routeForm').reset();
             updatePointsCounter();
             updateCurrentPointsList();
+            exitEquipmentMode();
+            exitRedundancyMode();
             showNotification('Todos os pontos foram removidos', 'info');
         }
 
         function addRoute(name, type) {
             const distance = calculateTotalDistance();
+            
+            // Prepara os pontos para salvar (remove referências a objetos Leaflet)
+            const pointsToSave = currentRoutePoints.map(point => {
+                const { connectionLine, ...pointToSave } = point;
+                return pointToSave;
+            });
+            
             const newRoute = {
-                id: Date.now(), name, type, distance: distance.toFixed(2),
-                points: [...currentRoutePoints], equipment: [],
+                id: Date.now(), 
+                name, 
+                type, 
+                distance: distance.toFixed(2),
+                points: pointsToSave, 
+                equipment: [],
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString()
             };
@@ -1210,10 +2442,17 @@
             const routeIndex = routes.findIndex(route => route.id === routeId);
             if (routeIndex !== -1) {
                 const distance = calculateTotalDistance();
+                
+                // Prepara os pontos para salvar (remove referências a objetos Leaflet)
+                const pointsToSave = currentRoutePoints.map(point => {
+                    const { connectionLine, ...pointToSave } = point;
+                    return pointToSave;
+                });
+                
                 routes[routeIndex].name = name;
                 routes[routeIndex].type = type;
                 routes[routeIndex].distance = distance.toFixed(2);
-                routes[routeIndex].points = [...currentRoutePoints];
+                routes[routeIndex].points = pointsToSave;
                 routes[routeIndex].updatedAt = new Date().toISOString();
                 
                 localStorage.setItem('ispRoutes', JSON.stringify(routes));
@@ -1226,9 +2465,12 @@
 
         function calculateTotalDistance() {
             let total = 0;
-            for (let i = 0; i < currentRoutePoints.length - 1; i++) {
-                total += calculateDistance(currentRoutePoints[i].lat, currentRoutePoints[i].lng,
-                                         currentRoutePoints[i+1].lat, currentRoutePoints[i+1].lng);
+            // Filtra apenas os pontos principais para calcular a distância da rota
+            const mainPoints = currentRoutePoints.filter(point => !point.connectedTo && !point.isRedundancy);
+            
+            for (let i = 0; i < mainPoints.length - 1; i++) {
+                total += calculateDistance(mainPoints[i].lat, mainPoints[i].lng,
+                                         mainPoints[i+1].lat, mainPoints[i+1].lng);
             }
             return total;
         }
@@ -1293,8 +2535,27 @@
                     pointEquipment
                 );
                 currentMarkers.push(marker);
+                
+                // Recria as conexões de equipamentos APENAS se houver connectedTo
+                if (point.connectedTo) {
+                    const originPoint = currentRoutePoints.find(p => p.id === point.connectedTo);
+                    if (originPoint) {
+                        createEquipmentConnection(originPoint, point);
+                    }
+                }
+                
+                // Recria as conexões de redundância
+                if (point.redundantConnections) {
+                    point.redundantConnections.forEach(conn => {
+                        const targetPoint = currentRoutePoints.find(p => p.id === conn.targetId);
+                        if (targetPoint) {
+                            createRedundancyConnection(point, targetPoint, conn.type, conn.description);
+                        }
+                    });
+                }
             });
             
+            // Atualiza a linha da rota principal
             updateRouteLine();
             updatePointsCounter();
             updateCurrentPointsList();
@@ -1330,6 +2591,8 @@
             document.getElementById('cancelEditBtn').style.display = 'block';
             document.getElementById('editModeBanner').style.display = 'block';
             document.getElementById('drawingStatus').style.display = 'none';
+            document.getElementById('addSwitchBtn').style.display = 'block';
+            document.getElementById('addRedundantConnectionBtn').style.display = 'block';
             
             // Carrega os pontos da rota
             clearDrawing();
@@ -1343,8 +2606,27 @@
                     pointEquipment
                 );
                 currentMarkers.push(marker);
+                
+                // Recria as conexões de equipamentos APENAS se houver connectedTo
+                if (point.connectedTo) {
+                    const originPoint = currentRoutePoints.find(p => p.id === point.connectedTo);
+                    if (originPoint) {
+                        createEquipmentConnection(originPoint, point);
+                    }
+                }
+                
+                // Recria as conexões de redundância
+                if (point.redundantConnections) {
+                    point.redundantConnections.forEach(conn => {
+                        const targetPoint = currentRoutePoints.find(p => p.id === conn.targetId);
+                        if (targetPoint) {
+                            createRedundancyConnection(point, targetPoint, conn.type, conn.description);
+                        }
+                    });
+                }
             });
             
+            // Atualiza a linha da rota principal
             updateRouteLine();
             updatePointsCounter();
             updateCurrentPointsList();
@@ -1352,7 +2634,7 @@
             const bounds = L.latLngBounds(currentRoutePoints.map(p => [p.lat, p.lng]));
             map.fitBounds(bounds, { padding: [20, 20] });
             
-            showNotification(`Editando: ${route.name} - Adicione, remova ou mova os pontos`, 'warning');
+            showNotification(`Editando: ${route.name} - Adicione, remova ou mova os pontos. Use os botões para adicionar equipamentos ou conexões de redundância.`, 'warning');
         }
 
         function exitEditMode() {
@@ -1364,11 +2646,15 @@
             document.getElementById('saveButtonText').textContent = 'Salvar';
             document.getElementById('cancelEditBtn').style.display = 'none';
             document.getElementById('editModeBanner').style.display = 'none';
+            document.getElementById('addSwitchBtn').style.display = 'none';
+            document.getElementById('addRedundantConnectionBtn').style.display = 'none';
             document.getElementById('route_id').value = '';
             
             // Limpa o formulário
             document.getElementById('routeForm').reset();
             
+            exitEquipmentMode();
+            exitRedundancyMode();
             showNotification('Modo de edição cancelado', 'info');
         }
 
@@ -1392,7 +2678,10 @@
                 'dwdm': 'DWDM',
                 'radio': 'Rádio',
                 'cto': 'CTO/Caixa',
-                'outro': 'Outro'
+                'outro': 'Outro',
+                'director': 'Director Class',
+                'router': 'Roteador',
+                'servidor': 'Servidor'
             };
             return types[type] || type;
         }
@@ -1401,9 +2690,11 @@
             drawingMode = true;
             document.getElementById('drawModeBtn').classList.add('active');
             document.getElementById('searchModeBtn').classList.remove('active');
-            if (!isEditMode) {
+            if (!isEditMode && !isAddingEquipment && !isAddingRedundancy) {
                 document.getElementById('drawingStatus').style.display = 'block';
             }
+            exitEquipmentMode();
+            exitRedundancyMode();
         }
 
         function activateSearchMode() {
@@ -1411,6 +2702,8 @@
             document.getElementById('searchModeBtn').classList.add('active');
             document.getElementById('drawModeBtn').classList.remove('active');
             document.getElementById('drawingStatus').style.display = 'none';
+            exitEquipmentMode();
+            exitRedundancyMode();
         }
 
         function showNotification(message, type) {
@@ -1425,7 +2718,7 @@
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 3000);
+            }, 4000);
         }
 
         // Event Listeners
@@ -1442,10 +2735,8 @@
             }
             
             if (isEditMode && routeId) {
-                // Modo edição - atualiza rota existente
                 updateRoute(parseInt(routeId), name, type);
             } else {
-                // Modo criação - adiciona nova rota
                 addRoute(name, type);
             }
         });
@@ -1454,6 +2745,21 @@
         document.getElementById('cancelEditBtn').addEventListener('click', exitEditMode);
         document.getElementById('drawModeBtn').addEventListener('click', activateDrawingMode);
         document.getElementById('searchModeBtn').addEventListener('click', activateSearchMode);
+        document.getElementById('addSwitchBtn').addEventListener('click', startAddEquipmentMode);
+        document.getElementById('addRedundantConnectionBtn').addEventListener('click', startAddRedundancyMode);
+
+        // Fechar modais ao clicar fora
+        document.getElementById('renameModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRenameModal();
+            }
+        });
+
+        document.getElementById('redundancyModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRedundancyModal();
+            }
+        });
     </script>
 </body>
 </html>
