@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciar Rotas - Sistema de Redes</title>
+    <title>Documentação de Rede - Sistema de Redes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -17,6 +17,30 @@
             --dark-text: #2c3e50;
             --gray-text: #7f8c8d;
             --border-color: #e1e8ed;
+            --card-bg: #ffffff;
+            --body-bg: #ecf0f1;
+            --header-bg: #ffffff;
+            --shadow-color: rgba(0,0,0,0.1);
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow-medium: 0 4px 15px rgba(0,0,0,0.1);
+            --shadow-heavy: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #ecf0f1;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --info-color: #3498db;
+            --light-bg: #2c3e50;
+            --dark-text: #ecf0f1;
+            --gray-text: #bdc3c7;
+            --border-color: #34495e;
+            --card-bg: #34495e;
+            --body-bg: #2c3e50;
+            --header-bg: #34495e;
+            --shadow-color: rgba(0,0,0,0.3);
         }
         
         * {
@@ -27,9 +51,11 @@
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--body-bg);
             min-height: 100vh;
             padding: 0;
+            color: var(--dark-text);
+            line-height: 1.6;
         }
         
         .container {
@@ -38,18 +64,16 @@
             padding: 20px;
         }
         
-        /* Header Styles */
+        /* Header */
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: var(--header-bg);
             padding: 1.5rem 2rem;
             border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-medium);
             margin-bottom: 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .logo {
@@ -65,6 +89,30 @@
             color: var(--secondary-color);
         }
         
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .theme-toggle {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+        }
+        
         .nav-btn {
             background: var(--secondary-color);
             color: white;
@@ -76,68 +124,76 @@
             gap: 8px;
             transition: all 0.3s ease;
             font-weight: 500;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
         
         .nav-btn:hover {
             background: #2980b9;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
         }
         
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: rgba(255, 255, 255, 0.95);
+        /* Filtros */
+        .filters {
+            background: var(--card-bg);
             padding: 1.5rem;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            text-align: center;
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--secondary-color);
-        }
-        
-        .stat-number {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-label {
-            color: var(--gray-text);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        /* Routes Grid */
-        .routes-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            padding: 2rem;
+            box-shadow: var(--shadow-medium);
             margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
         }
         
-        .section-title {
-            font-size: 1.5rem;
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .filter-group label {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+        
+        .filter-select {
+            padding: 0.7rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--dark-text);
+            min-width: 200px;
+        }
+        
+        .search-box {
+            padding: 0.7rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--dark-text);
+            min-width: 300px;
+        }
+        
+        /* Layout Principal */
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+        
+        /* Sidebar - Lista de Rotas */
+        .routes-sidebar {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow-medium);
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .sidebar-title {
+            font-size: 1.3rem;
             color: var(--primary-color);
             margin-bottom: 1.5rem;
             display: flex;
@@ -145,121 +201,79 @@
             gap: 10px;
         }
         
-        .section-title i {
-            color: var(--secondary-color);
+        .routes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
         }
         
-        .routes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .route-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: all 0.3s ease;
+        .route-item {
+            padding: 1rem;
             border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .route-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        .route-item:hover {
+            border-color: var(--secondary-color);
+            transform: translateX(5px);
         }
         
-        .route-header {
-            padding: 1.25rem;
-            border-bottom: 1px solid var(--border-color);
+        .route-item.active {
+            border-color: var(--secondary-color);
+            background: var(--light-bg);
+        }
+        
+        .route-item-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(135deg, var(--light-bg), white);
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
         }
         
-        .route-title {
-            font-size: 1.2rem;
-            font-weight: bold;
+        .route-item-name {
+            font-weight: 600;
             color: var(--primary-color);
         }
         
-        .route-badge {
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
+        .route-item-badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
             font-weight: bold;
             color: white;
         }
         
-        .badge-fibra { background: var(--secondary-color); }
-        .badge-radio { background: #9b59b6; }
-        .badge-metro { background: var(--warning-color); }
-        
-        .route-body {
-            padding: 1.25rem;
-        }
-        
-        .route-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .info-item {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .info-label {
-            font-size: 0.75rem;
-            color: var(--gray-text);
-            margin-bottom: 0.3rem;
-            font-weight: 500;
-        }
-        
-        .info-value {
-            font-weight: 600;
-            color: var(--primary-color);
-            font-size: 0.9rem;
-        }
-        
-        .route-points {
-            margin: 1rem 0;
-        }
-        
-        .points-title {
-            font-size: 0.85rem;
-            color: var(--gray-text);
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .point-item {
-            padding: 0.5rem;
-            background: var(--light-bg);
-            margin-bottom: 0.3rem;
-            border-radius: 6px;
+        .route-item-info {
             font-size: 0.8rem;
-            display: flex;
-            justify-content: space-between;
-            border-left: 3px solid var(--secondary-color);
+            color: var(--gray-text);
         }
         
-        .route-footer {
-            padding: 1rem 1.25rem;
-            background: var(--light-bg);
+        /* Conteúdo Principal */
+        .documentation-content {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow-medium);
+            padding: 2rem;
+            min-height: 600px;
+        }
+        
+        .content-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
         }
         
-        .route-id {
-            color: var(--gray-text);
-            font-size: 0.75rem;
-            font-family: monospace;
+        .content-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .route-actions {
@@ -267,58 +281,203 @@
             gap: 0.5rem;
         }
         
-        .action-btn {
-            padding: 0.5rem 1rem;
+        .btn {
+            padding: 0.6rem 1.2rem;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             gap: 5px;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             font-weight: 500;
         }
         
-        .btn-view { 
-            background: var(--info-color); 
+        .btn-primary { 
+            background: var(--secondary-color); 
             color: white; 
         }
-        .btn-edit { 
+        .btn-success { 
             background: var(--success-color); 
             color: white; 
         }
-        .btn-delete { 
+        .btn-danger { 
             background: var(--accent-color); 
             color: white; 
         }
         
-        .action-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        .btn:hover {
+            transform: translateY(-2px);
         }
         
-        .no-routes {
-            grid-column: 1 / -1;
+        /* Diagrama de Rede */
+        .network-diagram {
+            background: var(--light-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border-color);
+        }
+        
+        .diagram-placeholder {
             text-align: center;
-            padding: 3rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: var(--gray-text);
         }
         
-        .no-routes i {
+        .diagram-placeholder i {
             font-size: 3rem;
-            color: #ddd;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        /* Tabela de Conexões */
+        .connections-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .connections-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        
+        .connections-table th {
+            background: var(--secondary-color);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .connections-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .connections-table tr:hover {
+            background: var(--light-bg);
+        }
+        
+        .connection-status {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-active { background: var(--success-color); color: white; }
+        .status-inactive { background: var(--gray-text); color: white; }
+        .status-warning { background: var(--warning-color); color: white; }
+        
+        /* Lista de Equipamentos */
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .equipment-card {
+            background: var(--light-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .equipment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .equipment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 1rem;
         }
         
-        .no-routes h3 {
-            color: var(--gray-text);
-            margin-bottom: 0.5rem;
+        .equipment-name {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
         }
-
-        /* Modal Styles */
+        
+        .equipment-type {
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: white;
+            background: var(--info-color);
+        }
+        
+        .equipment-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .equipment-detail {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+        
+        .detail-label {
+            color: var(--gray-text);
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .equipment-location {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--gray-text);
+        }
+        
+        /* Estado Vazio */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-text);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--border-color);
+        }
+        
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+            color: var(--gray-text);
+        }
+        
+        /* Modal para Gerenciar Equipamentos */
         .modal {
             display: none;
             position: fixed;
@@ -334,13 +493,13 @@
         }
 
         .modal-content {
-            background: white;
+            background: var(--card-bg);
             border-radius: 15px;
             width: 95%;
             max-width: 800px;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: var(--shadow-heavy);
             animation: modalSlideIn 0.3s ease;
         }
 
@@ -398,327 +557,35 @@
             padding: 2rem;
         }
 
-        .equipment-section {
-            margin-bottom: 2rem;
+        /* Responsivo */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .routes-sidebar {
+                position: static;
+            }
         }
-
-        .section-title {
-            font-size: 1.3rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .points-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .point-card {
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1.5rem;
-            background: var(--light-bg);
-        }
-
-        .point-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .point-info h4 {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 0.3rem;
-            font-size: 1.1rem;
-        }
-
-        .point-coords {
-            font-size: 0.8rem;
-            color: var(--gray-text);
-            font-family: monospace;
-        }
-
-        .point-description {
-            font-size: 0.85rem;
-            color: var(--gray-text);
-            margin-top: 0.5rem;
-            line-height: 1.4;
-        }
-
-        .equipment-form {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            margin-top: 1rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.4rem;
-            font-weight: 600;
-            color: var(--dark-text);
-            font-size: 0.85rem;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 0.7rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 0.9rem;
-            transition: border-color 0.3s ease;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: flex-end;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            padding: 0.6rem 1.2rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .btn-primary { 
-            background: var(--secondary-color); 
-            color: white; 
-        }
-        .btn-success { 
-            background: var(--success-color); 
-            color: white; 
-        }
-        .btn-danger { 
-            background: var(--accent-color); 
-            color: white; 
-        }
-        .btn-warning { 
-            background: var(--warning-color); 
-            color: white; 
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .equipment-list {
-            margin-top: 1.5rem;
-        }
-
-        .equipment-list-title {
-            font-size: 1rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .equipment-item {
-            background: white;
-            padding: 1rem;
-            margin-bottom: 0.8rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            transition: all 0.3s ease;
-        }
-
-        .equipment-item:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transform: translateX(5px);
-        }
-
-        .equipment-info {
-            flex: 1;
-        }
-
-        .equipment-info h4 {
-            margin: 0 0 0.5rem 0;
-            color: var(--primary-color);
-            font-size: 1rem;
-        }
-
-        .equipment-details {
-            display: grid;
-            grid-template-columns: auto auto;
-            gap: 1rem;
-            font-size: 0.8rem;
-            color: var(--gray-text);
-        }
-
-        .equipment-detail {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .equipment-detail strong {
-            color: var(--dark-text);
-        }
-
-        .equipment-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn-icon {
-            padding: 0.5rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            width: 32px;
-            height: 32px;
-        }
-
-        .btn-edit-equipment { 
-            background: var(--success-color); 
-            color: white; 
-        }
-        .btn-delete-equipment { 
-            background: var(--accent-color); 
-            color: white; 
-        }
-
-        .btn-icon:hover {
-            transform: scale(1.1);
-        }
-
-        .no-equipment {
-            text-align: center;
-            padding: 2rem;
-            color: var(--gray-text);
-            font-style: italic;
-            background: white;
-            border-radius: 8px;
-            border: 1px dashed var(--border-color);
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            z-index: 1001;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.success { background: var(--success-color); }
-        .notification.error { background: var(--accent-color); }
-        .notification.info { background: var(--info-color); }
-
-        /* Edit Equipment Modal */
-        .edit-equipment-form {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        /* Responsive */
+        
         @media (max-width: 768px) {
-            .routes-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
             .header {
                 flex-direction: column;
                 gap: 1rem;
                 text-align: center;
             }
             
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .route-actions {
+            .filters {
                 flex-direction: column;
+                align-items: stretch;
             }
             
-            .equipment-item {
-                flex-direction: column;
-                gap: 1rem;
+            .filter-select, .search-box {
+                min-width: auto;
             }
             
-            .equipment-actions {
-                align-self: flex-end;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid {
+            .equipment-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .container {
-                padding: 10px;
-            }
-            
-            .routes-section {
-                padding: 1rem;
             }
         }
     </style>
@@ -728,317 +595,597 @@
         <header class="header">
             <div class="logo">
                 <i class="fas fa-network-wired"></i>
-                Gerenciar Rotas e Equipamentos
+                Documentação de Rede
             </div>
-            <a href="index.html" class="nav-btn">
-                <i class="fas fa-arrow-left"></i> Voltar ao Mapa
-            </a>
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="index.html" class="nav-btn">
+                    <i class="fas fa-map"></i> Ver Mapa
+                </a>
+            </div>
         </header>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">
+        <div class="filters">
+            <div class="filter-group">
+                <label for="routeTypeFilter">Filtrar por Tipo:</label>
+                <select class="filter-select" id="routeTypeFilter">
+                    <option value="all">Todos os Tipos</option>
+                    <option value="fibra">Fibra Óptica</option>
+                    <option value="radio">Rádio Enlace</option>
+                    <option value="metro">Metro Ethernet</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="statusFilter">Filtrar por Status:</label>
+                <select class="filter-select" id="statusFilter">
+                    <option value="all">Todos os Status</option>
+                    <option value="active">Ativo</option>
+                    <option value="inactive">Inativo</option>
+                    <option value="warning">Com Problemas</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="searchBox">Buscar:</label>
+                <input type="text" class="search-box" id="searchBox" placeholder="Buscar por rota, ponto ou equipamento...">
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Sidebar com Lista de Rotas -->
+            <aside class="routes-sidebar">
+                <h2 class="sidebar-title">
+                    <i class="fas fa-list"></i>
+                    Rotas Cadastradas
+                </h2>
+                <div class="routes-list" id="routesList">
+                    <!-- Rotas serão carregadas aqui -->
+                </div>
+            </aside>
+
+            <!-- Conteúdo Principal -->
+            <main class="documentation-content">
+                <div id="emptyState" class="empty-state">
                     <i class="fas fa-route"></i>
+                    <h3>Nenhuma Rota Selecionada</h3>
+                    <p>Selecione uma rota na lista ao lado para visualizar a documentação completa</p>
                 </div>
-                <div class="stat-number" id="totalRoutes">0</div>
-                <div class="stat-label">Total de Rotas</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-ruler-combined"></i>
-                </div>
-                <div class="stat-number" id="totalDistance">0 km</div>
-                <div class="stat-label">Distância Total</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-fiber"></i>
-                </div>
-                <div class="stat-number" id="fibraCount">0</div>
-                <div class="stat-label">Rotas de Fibra</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-server"></i>
-                </div>
-                <div class="stat-number" id="equipmentCount">0</div>
-                <div class="stat-label">Equipamentos</div>
-            </div>
-        </div>
 
-        <section class="routes-section">
-            <h2 class="section-title">
-                <i class="fas fa-list"></i>
-                Todas as Rotas Cadastradas
-            </h2>
-            <div class="routes-grid" id="routesGrid">
-                <!-- As rotas serão carregadas aqui via JavaScript -->
-            </div>
-        </section>
+                <div id="routeContent" style="display: none;">
+                    <div class="content-header">
+                        <h1 class="content-title">
+                            <i class="fas fa-project-diagram"></i>
+                            <span id="routeTitle">Nome da Rota</span>
+                        </h1>
+                        <div class="route-actions">
+                            <button class="btn btn-primary" onclick="viewOnMap()">
+                                <i class="fas fa-map-marker-alt"></i> Ver no Mapa
+                            </button>
+                            <button class="btn btn-success" onclick="openEquipmentManager()">
+                                <i class="fas fa-edit"></i> Gerenciar Equipamentos
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Informações da Rota -->
+                    <div class="route-info-section" style="margin-bottom: 2rem;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                            <div style="background: var(--light-bg); padding: 1rem; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 0.9rem; color: var(--gray-text); margin-bottom: 0.5rem;">Distância Total</div>
+                                <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);" id="routeDistance">0 km</div>
+                            </div>
+                            <div style="background: var(--light-bg); padding: 1rem; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 0.9rem; color: var(--gray-text); margin-bottom: 0.5rem;">Pontos</div>
+                                <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);" id="routePoints">0</div>
+                            </div>
+                            <div style="background: var(--light-bg); padding: 1rem; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 0.9rem; color: var(--gray-text); margin-bottom: 0.5rem;">Equipamentos</div>
+                                <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);" id="routeEquipment">0</div>
+                            </div>
+                            <div style="background: var(--light-bg); padding: 1rem; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 0.9rem; color: var(--gray-text); margin-bottom: 0.5rem;">Status</div>
+                                <div class="connection-status status-active" id="routeStatus">Ativo</div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: var(--light-bg); padding: 1.5rem; border-radius: 8px;">
+                            <h3 class="section-title"><i class="fas fa-info-circle"></i> Descrição da Rota</h3>
+                            <p id="routeDescription" style="color: var(--gray-text); line-height: 1.6;">Sem descrição cadastrada.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tabela de Conexões -->
+                    <div class="connections-section">
+                        <h3 class="section-title"><i class="fas fa-link"></i> Conexões entre Pontos</h3>
+                        <table class="connections-table">
+                            <thead>
+                                <tr>
+                                    <th>Ponto de Origem</th>
+                                    <th>Ponto de Destino</th>
+                                    <th>Distância</th>
+                                    <th>Tipo de Link</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="connectionsTable">
+                                <!-- Conexões serão carregadas aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Equipamentos por Ponto -->
+                    <div class="equipment-section">
+                        <h3 class="section-title"><i class="fas fa-server"></i> Equipamentos por Ponto</h3>
+                        <div class="equipment-grid" id="equipmentGrid">
+                            <!-- Equipamentos serão carregados aqui -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
 
-    <!-- Modal de Edição de Equipamentos -->
-    <div class="modal" id="editModal">
+    <!-- Modal para Gerenciar Equipamentos -->
+    <div class="modal" id="equipmentModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-edit"></i> Gerenciar Equipamentos: <span id="modalRouteName"></span></h3>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
+                <h3><i class="fas fa-server"></i> Gerenciar Equipamentos: <span id="modalRouteName"></span></h3>
+                <button class="close-modal" onclick="closeEquipmentModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="points-list" id="pointsList">
-                    <!-- Lista de pontos será carregada aqui -->
+                <div id="equipmentManagerContent">
+                    <!-- Conteúdo do gerenciador de equipamentos será carregado aqui -->
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Modal de Edição de Equipamento Individual -->
-    <div class="modal" id="editEquipmentModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-cogs"></i> Editar Equipamento</h3>
-                <button class="close-modal" onclick="closeEditEquipmentModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="edit-equipment-form" id="editEquipmentForm">
-                    <!-- Formulário de edição será carregado aqui -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="notification" id="notification"></div>
 
     <script>
-        let currentEditingRoute = null;
-        let currentEditingEquipment = null;
+        let currentRoute = null;
+        let allRoutes = [];
+        let isDarkMode = false;
 
+        // Carregar tema
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggle = document.getElementById('themeToggle');
+            
+            if (savedTheme === 'dark') {
+                isDarkMode = true;
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                isDarkMode = false;
+                document.documentElement.removeAttribute('data-theme');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        // Alternar tema
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const themeToggle = document.getElementById('themeToggle');
+            
+            if (isDarkMode) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Carregar rotas
         function loadRoutes() {
-            const routes = JSON.parse(localStorage.getItem('ispRoutes')) || [];
-            const routesGrid = document.getElementById('routesGrid');
+            allRoutes = JSON.parse(localStorage.getItem('ispRoutes')) || [];
+            const routesList = document.getElementById('routesList');
             
-            // Atualizar estatísticas
-            document.getElementById('totalRoutes').textContent = routes.length;
-            document.getElementById('totalDistance').textContent = 
-                routes.reduce((sum, route) => sum + parseFloat(route.distance || 0), 0).toFixed(1) + ' km';
-            document.getElementById('fibraCount').textContent = 
-                routes.filter(route => route.type === 'fibra').length;
-            document.getElementById('equipmentCount').textContent = 
-                routes.reduce((sum, route) => sum + (route.equipment?.length || 0), 0);
+            routesList.innerHTML = '';
 
-            // Limpar grid
-            routesGrid.innerHTML = '';
-
-            if (routes.length === 0) {
-                routesGrid.innerHTML = `
-                    <div class="no-routes">
-                        <i class="fas fa-route"></i>
-                        <h3>Nenhuma rota cadastrada</h3>
-                        <p>Volte ao mapa para criar sua primeira rota</p>
+            if (allRoutes.length === 0) {
+                routesList.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-text);">
+                        <i class="fas fa-route" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Nenhuma rota cadastrada</p>
                     </div>
                 `;
                 return;
             }
 
-            // Adicionar cards de rotas
-            routes.forEach(route => {
-                const routeCard = document.createElement('div');
-                routeCard.className = 'route-card';
-                
+            allRoutes.forEach(route => {
                 const badgeClass = `badge-${route.type}`;
-                const badgeText = route.type === 'fibra' ? 'Fibra Óptica' : 
-                                route.type === 'radio' ? 'Rádio Enlace' : 'Metro Ethernet';
-                
-                const pointsHtml = route.points?.slice(0, 3).map((point, index) => `
-                    <div class="point-item">
-                        <span>Ponto ${index + 1}: ${point.name}</span>
-                        <small>${point.description || ''}</small>
-                    </div>
-                `).join('') || '';
+                const badgeText = route.type === 'fibra' ? 'Fibra' : 
+                                route.type === 'radio' ? 'Rádio' : 'Metro';
+                const badgeColor = route.type === 'fibra' ? '#3498db' : 
+                                 route.type === 'radio' ? '#9b59b6' : '#f39c12';
 
-                routeCard.innerHTML = `
-                    <div class="route-header">
-                        <div class="route-title">${route.name}</div>
-                        <div class="route-badge ${badgeClass}">${badgeText}</div>
+                const routeItem = document.createElement('div');
+                routeItem.className = 'route-item';
+                routeItem.setAttribute('data-route-id', route.id);
+                routeItem.innerHTML = `
+                    <div class="route-item-header">
+                        <div class="route-item-name">${route.name}</div>
+                        <div class="route-item-badge" style="background: ${badgeColor}">${badgeText}</div>
                     </div>
-                    <div class="route-body">
-                        <div class="route-info">
-                            <div class="info-item">
-                                <span class="info-label">Distância</span>
-                                <span class="info-value">${route.distance} km</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Pontos</span>
-                                <span class="info-value">${route.points?.length || 0}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Equipamentos</span>
-                                <span class="info-value">${route.equipment?.length || 0}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Criada em</span>
-                                <span class="info-value">${new Date(route.createdAt).toLocaleDateString('pt-BR')}</span>
-                            </div>
-                        </div>
-                        ${route.description ? `<div style="margin: 1rem 0; font-size: 0.9rem; color: #666;">${route.description}</div>` : ''}
-                        <div class="route-points">
-                            <div class="points-title">Pontos da Rota:</div>
-                            ${pointsHtml}
-                            ${(route.points?.length || 0) > 3 ? `<div style="text-align: center; color: #666; font-size: 0.8rem; margin-top: 0.5rem;">+ mais ${route.points.length - 3} pontos</div>` : ''}
-                        </div>
-                    </div>
-                    <div class="route-footer">
-                        <div class="route-id">ID: ${route.id}</div>
-                        <div class="route-actions">
-                            <button class="action-btn btn-view" onclick="viewRoute(${route.id})">
-                                <i class="fas fa-eye"></i> Ver
-                            </button>
-                            <button class="action-btn btn-edit" onclick="openEditModal(${route.id})">
-                                <i class="fas fa-edit"></i> Equipamentos
-                            </button>
-                            <button class="action-btn btn-delete" onclick="deleteRoute(${route.id})">
-                                <i class="fas fa-trash"></i> Excluir
-                            </button>
-                        </div>
+                    <div class="route-item-info">
+                        ${route.points?.length || 0} pontos • ${route.distance} km
                     </div>
                 `;
                 
-                routesGrid.appendChild(routeCard);
+                routeItem.addEventListener('click', () => selectRoute(route.id));
+                routesList.appendChild(routeItem);
             });
+
+            // Selecionar primeira rota por padrão
+            if (allRoutes.length > 0) {
+                selectRoute(allRoutes[0].id);
+            }
         }
 
-        function openEditModal(routeId) {
-            const routes = JSON.parse(localStorage.getItem('ispRoutes')) || [];
-            const route = routes.find(r => r.id == routeId);
+        // Selecionar rota
+        function selectRoute(routeId) {
+            currentRoute = allRoutes.find(r => r.id == routeId);
+            if (!currentRoute) return;
+
+            // Atualizar itens ativos
+            document.querySelectorAll('.route-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`.route-item[data-route-id="${routeId}"]`).classList.add('active');
+
+            // Mostrar conteúdo da rota
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('routeContent').style.display = 'block';
+
+            // Atualizar informações da rota
+            document.getElementById('routeTitle').textContent = currentRoute.name;
+            document.getElementById('routeDistance').textContent = currentRoute.distance + ' km';
+            document.getElementById('routePoints').textContent = currentRoute.points?.length || 0;
             
-            if (!route) {
-                showNotification('Rota não encontrada!', 'error');
+            // Contar equipamentos considerando redundância
+            const equipmentCount = countTotalEquipment(currentRoute);
+            document.getElementById('routeEquipment').textContent = equipmentCount;
+            
+            document.getElementById('routeDescription').textContent = currentRoute.description || 'Sem descrição cadastrada.';
+
+            // Carregar conexões
+            loadConnections();
+
+            // Carregar equipamentos
+            loadEquipment();
+        }
+
+        // Contar equipamentos totais (incluindo redundância)
+        function countTotalEquipment(route) {
+            if (!route.equipment) return 0;
+            
+            let count = route.equipment.length;
+            
+            // Contar pontos de redundância como equipamentos adicionais
+            if (route.points) {
+                route.points.forEach(point => {
+                    if (point.redundantConnections && point.redundantConnections.length > 0) {
+                        count += point.redundantConnections.length;
+                    }
+                });
+            }
+            
+            return count;
+        }
+
+        // Carregar conexões entre pontos
+        function loadConnections() {
+            const connectionsTable = document.getElementById('connectionsTable');
+            connectionsTable.innerHTML = '';
+
+            if (!currentRoute.points || currentRoute.points.length < 2) {
+                connectionsTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 2rem; color: var(--gray-text);">
+                            <i class="fas fa-info-circle"></i> Esta rota precisa de pelo menos 2 pontos para mostrar conexões
+                        </td>
+                    </tr>
+                `;
                 return;
             }
 
-            currentEditingRoute = route;
-            document.getElementById('modalRouteName').textContent = route.name;
-            loadPointsList(route);
-            document.getElementById('editModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('editModal').style.display = 'none';
-            currentEditingRoute = null;
-        }
-
-        function closeEditEquipmentModal() {
-            document.getElementById('editEquipmentModal').style.display = 'none';
-            currentEditingEquipment = null;
-        }
-
-        function loadPointsList(route) {
-            const pointsList = document.getElementById('pointsList');
-            pointsList.innerHTML = '';
-
-            if (!route.points || route.points.length === 0) {
-                pointsList.innerHTML = '<div class="no-equipment">Nenhum ponto cadastrado nesta rota</div>';
-                return;
-            }
-
-            route.points.forEach((point, index) => {
-                const pointCard = document.createElement('div');
-                pointCard.className = 'point-card';
+            // Conexões principais entre pontos sequenciais
+            for (let i = 0; i < currentRoute.points.length - 1; i++) {
+                const pointA = currentRoute.points[i];
+                const pointB = currentRoute.points[i + 1];
                 
-                const pointEquipment = route.equipment?.filter(eq => eq.pointId == point.id) || [];
+                const distance = calculateDistance(pointA.lat, pointA.lng, pointB.lat, pointB.lng);
+                const linkType = getLinkType(currentRoute.type);
                 
-                pointCard.innerHTML = `
-                    <div class="point-header">
-                        <div class="point-info">
-                            <h4>Ponto ${index + 1}: ${point.name}</h4>
-                            <div class="point-coords">${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}</div>
-                            ${point.description ? `<div class="point-description">${point.description}</div>` : ''}
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <strong>${pointA.name}</strong>
+                        <div style="font-size: 0.8rem; color: var(--gray-text);">
+                            ${pointA.lat.toFixed(4)}, ${pointA.lng.toFixed(4)}
                         </div>
+                    </td>
+                    <td>
+                        <strong>${pointB.name}</strong>
+                        <div style="font-size: 0.8rem; color: var(--gray-text);">
+                            ${pointB.lat.toFixed(4)}, ${pointB.lng.toFixed(4)}
+                        </div>
+                    </td>
+                    <td>${distance.toFixed(2)} km</td>
+                    <td>${linkType}</td>
+                    <td><span class="connection-status status-active">Ativo</span></td>
+                `;
+                connectionsTable.appendChild(row);
+            }
+
+            // Conexões de redundância
+            if (currentRoute.points) {
+                currentRoute.points.forEach(point => {
+                    if (point.redundantConnections && point.redundantConnections.length > 0) {
+                        point.redundantConnections.forEach(conn => {
+                            if (conn.direction === 'outgoing') {
+                                const targetPoint = currentRoute.points.find(p => p.id == conn.targetId);
+                                if (targetPoint) {
+                                    const distance = calculateDistance(point.lat, point.lng, targetPoint.lat, targetPoint.lng);
+                                    const row = document.createElement('tr');
+                                    row.innerHTML = `
+                                        <td>
+                                            <strong>${point.name}</strong>
+                                            <div style="font-size: 0.8rem; color: var(--gray-text);">
+                                                ${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <strong>${targetPoint.name}</strong>
+                                            <div style="font-size: 0.8rem; color: var(--gray-text);">
+                                                ${targetPoint.lat.toFixed(4)}, ${targetPoint.lng.toFixed(4)}
+                                            </div>
+                                            <div style="font-size: 0.7rem; color: #f39c12; margin-top: 0.2rem;">
+                                                <i class="fas fa-sitemap"></i> Redundância
+                                            </div>
+                                        </td>
+                                        <td>${distance.toFixed(2)} km</td>
+                                        <td>${getRedundancyTypeDisplay(conn.type)}</td>
+                                        <td><span class="connection-status status-active">Ativo</span></td>
+                                    `;
+                                    connectionsTable.appendChild(row);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        // Carregar equipamentos
+        function loadEquipment() {
+            const equipmentGrid = document.getElementById('equipmentGrid');
+            equipmentGrid.innerHTML = '';
+
+            const hasEquipment = currentRoute.equipment && currentRoute.equipment.length > 0;
+            const hasRedundancy = currentRoute.points && currentRoute.points.some(p => p.redundantConnections && p.redundantConnections.length > 0);
+
+            if (!hasEquipment && !hasRedundancy) {
+                equipmentGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--gray-text);">
+                        <i class="fas fa-server" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Nenhum equipamento cadastrado nesta rota</p>
+                        <button class="btn btn-success" onclick="openEquipmentManager()" style="margin-top: 1rem;">
+                            <i class="fas fa-plus"></i> Adicionar Primeiro Equipamento
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Agrupar equipamentos por ponto
+            const equipmentByPoint = {};
+            if (currentRoute.equipment) {
+                currentRoute.equipment.forEach(equip => {
+                    if (!equipmentByPoint[equip.pointId]) {
+                        equipmentByPoint[equip.pointId] = [];
+                    }
+                    equipmentByPoint[equip.pointId].push(equip);
+                });
+            }
+
+            // Criar cards para cada ponto com equipamentos
+            if (currentRoute.points) {
+                currentRoute.points.forEach((point, index) => {
+                    const pointEquipment = equipmentByPoint[point.id] || [];
+                    const hasPointRedundancy = point.redundantConnections && point.redundantConnections.length > 0;
+
+                    if (pointEquipment.length === 0 && !hasPointRedundancy) {
+                        return; // Pular pontos sem equipamentos e sem redundância
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = 'equipment-card';
+                    
+                    let cardContent = `
+                        <div class="equipment-header">
+                            <div class="equipment-name">${point.name}</div>
+                            <div class="equipment-type">
+                                ${pointEquipment.length + (hasPointRedundancy ? point.redundantConnections.length : 0)} ${pointEquipment.length + (hasPointRedundancy ? point.redundantConnections.length : 0) === 1 ? 'item' : 'itens'}
+                            </div>
+                        </div>
+                        <div class="equipment-location">
+                            <i class="fas fa-map-marker-alt"></i> 
+                            ${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}
+                            ${point.iconType && point.iconType !== 'default' ? ` • ${getIconDisplayName(point.iconType)}` : ''}
+                        </div>
+                    `;
+
+                    // Adicionar equipamentos do ponto
+                    if (pointEquipment.length > 0) {
+                        cardContent += `<div style="margin-top: 1rem;">`;
+                        pointEquipment.forEach(equip => {
+                            cardContent += `
+                                <div style="background: var(--card-bg); padding: 0.8rem; margin-bottom: 0.5rem; border-radius: 6px; border: 1px solid var(--border-color);">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                                        <strong style="color: var(--primary-color);">${equip.name}</strong>
+                                        <span style="font-size: 0.7rem; padding: 0.2rem 0.5rem; background: #3498db; color: white; border-radius: 10px;">
+                                            ${getEquipmentTypeDisplay(equip.type)}
+                                        </span>
+                                    </div>
+                                    ${equip.model ? `<div style="font-size: 0.8rem; color: var(--gray-text); margin-bottom: 0.3rem;">Modelo: ${equip.model}</div>` : ''}
+                                    ${equip.config ? `<div style="font-size: 0.8rem; color: var(--gray-text);">Config: ${equip.config.substring(0, 50)}${equip.config.length > 50 ? '...' : ''}</div>` : ''}
+                                </div>
+                            `;
+                        });
+                        cardContent += `</div>`;
+                    }
+
+                    // Adicionar conexões de redundância
+                    if (hasPointRedundancy) {
+                        cardContent += `<div style="margin-top: 1rem;">`;
+                        point.redundantConnections.forEach(conn => {
+                            if (conn.direction === 'outgoing') {
+                                const targetPoint = currentRoute.points.find(p => p.id == conn.targetId);
+                                if (targetPoint) {
+                                    cardContent += `
+                                        <div style="background: #fff3cd; padding: 0.8rem; margin-bottom: 0.5rem; border-radius: 6px; border: 1px solid #ffeaa7;">
+                                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.3rem;">
+                                                <strong style="color: #856404;">Conexão de Redundância</strong>
+                                                <span style="font-size: 0.7rem; padding: 0.2rem 0.5rem; background: #f39c12; color: white; border-radius: 10px;">
+                                                    ${getRedundancyTypeDisplay(conn.type)}
+                                                </span>
+                                            </div>
+                                            <div style="font-size: 0.8rem; color: #856404;">
+                                                <i class="fas fa-arrow-right"></i> Conectado a: ${targetPoint.name}
+                                            </div>
+                                            ${conn.description ? `<div style="font-size: 0.8rem; color: #856404; margin-top: 0.3rem;">${conn.description}</div>` : ''}
+                                        </div>
+                                    `;
+                                }
+                            }
+                        });
+                        cardContent += `</div>`;
+                    }
+
+                    card.innerHTML = cardContent;
+                    equipmentGrid.appendChild(card);
+                });
+            }
+        }
+
+        // Abrir gerenciador de equipamentos
+        function openEquipmentManager() {
+            if (!currentRoute) return;
+            
+            document.getElementById('modalRouteName').textContent = currentRoute.name;
+            loadEquipmentManager();
+            document.getElementById('equipmentModal').style.display = 'flex';
+        }
+
+        // Fechar modal de equipamentos
+        function closeEquipmentModal() {
+            document.getElementById('equipmentModal').style.display = 'none';
+        }
+
+        // Carregar gerenciador de equipamentos
+        function loadEquipmentManager() {
+            const content = document.getElementById('equipmentManagerContent');
+            content.innerHTML = '';
+
+            if (!currentRoute.points || currentRoute.points.length === 0) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-text);">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Esta rota não possui pontos cadastrados</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Criar seção para cada ponto
+            currentRoute.points.forEach((point, index) => {
+                const pointSection = document.createElement('div');
+                pointSection.style.marginBottom = '2rem';
+                pointSection.style.padding = '1.5rem';
+                pointSection.style.background = 'var(--light-bg)';
+                pointSection.style.borderRadius = '8px';
+                
+                const pointEquipment = currentRoute.equipment?.filter(eq => eq.pointId == point.id) || [];
+                
+                pointSection.innerHTML = `
+                    <h4 style="color: var(--primary-color); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Ponto ${index + 1}: ${point.name}
+                        ${point.iconType && point.iconType !== 'default' ? `<span style="font-size: 0.8rem; background: #3498db; color: white; padding: 0.2rem 0.5rem; border-radius: 10px; margin-left: auto;">${getIconDisplayName(point.iconType)}</span>` : ''}
+                    </h4>
+                    <div style="font-size: 0.8rem; color: var(--gray-text); margin-bottom: 1rem;">
+                        ${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}
                     </div>
                     
-                    <div class="equipment-form">
-                        <h4 class="section-title"><i class="fas fa-plus-circle"></i> Adicionar Equipamento</h4>
-                        <form onsubmit="addEquipment(event, ${point.id})">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Nome do Equipamento *</label>
-                                    <input type="text" name="equipment_name" required placeholder="Ex: OLT Principal">
+                    <div style="margin-bottom: 1.5rem;">
+                        <h5 style="color: var(--primary-color); margin-bottom: 1rem;">Adicionar Equipamento</h5>
+                        <form onsubmit="addEquipment(event, ${point.id})" style="display: grid; gap: 1rem;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Nome do Equipamento *</label>
+                                    <input type="text" name="equipment_name" required style="width: 100%; padding: 0.7rem; border: 1px solid var(--border-color); border-radius: 6px;">
                                 </div>
-                                <div class="form-group">
-                                    <label>Tipo *</label>
-                                    <select name="equipment_type" required>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Tipo *</label>
+                                    <select name="equipment_type" required style="width: 100%; padding: 0.7rem; border: 1px solid var(--border-color); border-radius: 6px;">
                                         <option value="">Selecione o tipo</option>
                                         <option value="olt">OLT</option>
                                         <option value="onu">ONU/Cliente</option>
                                         <option value="switch">Switch</option>
                                         <option value="router">Roteador</option>
                                         <option value="radio">Rádio</option>
-                                        <option value="antena">Antena</option>
+                                        <option value="dwdm">DWDM</option>
                                         <option value="servidor">Servidor</option>
                                         <option value="cto">CTO/Caixa</option>
+                                        <option value="director">Director Class</option>
                                         <option value="outro">Outro</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>Modelo</label>
-                                <input type="text" name="equipment_model" placeholder="Ex: TP-Link TL-SG1024">
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Modelo</label>
+                                <input type="text" name="equipment_model" style="width: 100%; padding: 0.7rem; border: 1px solid var(--border-color); border-radius: 6px;">
                             </div>
-                            <div class="form-group">
-                                <label>Configuração</label>
-                                <textarea name="equipment_config" placeholder="Configurações técnicas, IP, VLAN, etc..."></textarea>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Configuração</label>
+                                <textarea name="equipment_config" style="width: 100%; padding: 0.7rem; border: 1px solid var(--border-color); border-radius: 6px; min-height: 80px;"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label>Comentários</label>
-                                <textarea name="equipment_comments" placeholder="Observações, notas, etc..."></textarea>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Comentários</label>
+                                <textarea name="equipment_comments" style="width: 100%; padding: 0.7rem; border: 1px solid var(--border-color); border-radius: 6px; min-height: 60px;"></textarea>
                             </div>
-                            <div class="form-actions">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-plus"></i> Adicionar Equipamento
-                                </button>
-                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-plus"></i> Adicionar Equipamento
+                            </button>
                         </form>
                     </div>
-
-                    <div class="equipment-list">
-                        <h4 class="equipment-list-title">
-                            <i class="fas fa-server"></i>
-                            Equipamentos no Ponto (${pointEquipment.length})
-                        </h4>
+                    
+                    <div>
+                        <h5 style="color: var(--primary-color); margin-bottom: 1rem;">Equipamentos Cadastrados (${pointEquipment.length})</h5>
                         ${pointEquipment.length === 0 ? 
-                            '<div class="no-equipment">Nenhum equipamento cadastrado neste ponto</div>' : 
+                            '<p style="color: var(--gray-text); text-align: center; padding: 1rem;">Nenhum equipamento cadastrado</p>' : 
                             pointEquipment.map(equip => `
-                                <div class="equipment-item">
-                                    <div class="equipment-info">
-                                        <h4>${equip.name}</h4>
-                                        <div class="equipment-details">
-                                            <div class="equipment-detail">
-                                                <strong>Tipo:</strong> ${getEquipmentTypeDisplay(equip.type)}
-                                            </div>
-                                            ${equip.model ? `
-                                                <div class="equipment-detail">
-                                                    <strong>Modelo:</strong> ${equip.model}
-                                                </div>
-                                            ` : ''}
-                                            ${equip.config ? `
-                                                <div class="equipment-detail" style="grid-column: 1 / -1;">
-                                                    <strong>Config:</strong> ${equip.config.length > 100 ? equip.config.substring(0, 100) + '...' : equip.config}
-                                                </div>
-                                            ` : ''}
-                                            ${equip.comments ? `
-                                                <div class="equipment-detail" style="grid-column: 1 / -1;">
-                                                    <strong>Obs:</strong> ${equip.comments.length > 100 ? equip.comments.substring(0, 100) + '...' : equip.comments}
-                                                </div>
-                                            ` : ''}
+                                <div style="background: var(--card-bg); padding: 1rem; margin-bottom: 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                                        <strong>${equip.name}</strong>
+                                        <div>
+                                            <button onclick="editEquipment(${equip.id})" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; margin-right: 0.5rem;">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button onclick="deleteEquipment(${equip.id})" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div class="equipment-actions">
-                                        <button class="btn-icon btn-edit-equipment" onclick="editEquipment(${equip.id})" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-icon btn-delete-equipment" onclick="deleteEquipment(${equip.id})" title="Excluir">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                    <div style="font-size: 0.8rem; color: var(--gray-text);">
+                                        <div><strong>Tipo:</strong> ${getEquipmentTypeDisplay(equip.type)}</div>
+                                        ${equip.model ? `<div><strong>Modelo:</strong> ${equip.model}</div>` : ''}
+                                        ${equip.config ? `<div><strong>Configuração:</strong> ${equip.config}</div>` : ''}
+                                        ${equip.comments ? `<div><strong>Comentários:</strong> ${equip.comments}</div>` : ''}
                                     </div>
                                 </div>
                             `).join('')
@@ -1046,14 +1193,13 @@
                     </div>
                 `;
                 
-                pointsList.appendChild(pointCard);
+                content.appendChild(pointSection);
             });
         }
 
+        // Adicionar equipamento
         function addEquipment(event, pointId) {
             event.preventDefault();
-            
-            if (!currentEditingRoute) return;
             
             const formData = new FormData(event.target);
             const newEquipment = {
@@ -1069,7 +1215,7 @@
 
             // Atualizar a rota
             const routes = JSON.parse(localStorage.getItem('ispRoutes')) || [];
-            const routeIndex = routes.findIndex(r => r.id == currentEditingRoute.id);
+            const routeIndex = routes.findIndex(r => r.id == currentRoute.id);
             
             if (routeIndex !== -1) {
                 if (!routes[routeIndex].equipment) {
@@ -1079,129 +1225,74 @@
                 localStorage.setItem('ispRoutes', JSON.stringify(routes));
                 
                 // Atualizar a visualização
-                currentEditingRoute = routes[routeIndex];
-                loadPointsList(currentEditingRoute);
-                loadRoutes(); // Atualizar estatísticas
+                currentRoute = routes[routeIndex];
+                loadEquipment();
+                loadEquipmentManager();
                 
                 event.target.reset();
                 showNotification('Equipamento adicionado com sucesso!', 'success');
             }
         }
 
+        // Editar equipamento
         function editEquipment(equipmentId) {
-            if (!currentEditingRoute) return;
-            
-            const equipment = currentEditingRoute.equipment.find(eq => eq.id == equipmentId);
-            if (!equipment) {
-                showNotification('Equipamento não encontrado!', 'error');
-                return;
-            }
+            const equipment = currentRoute.equipment.find(eq => eq.id == equipmentId);
+            if (!equipment) return;
 
-            currentEditingEquipment = equipment;
-            
-            const editForm = document.getElementById('editEquipmentForm');
-            editForm.innerHTML = `
-                <form onsubmit="updateEquipment(event, ${equipmentId})">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Nome do Equipamento *</label>
-                            <input type="text" name="equipment_name" value="${equipment.name}" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Tipo *</label>
-                            <select name="equipment_type" required>
-                                <option value="olt" ${equipment.type === 'olt' ? 'selected' : ''}>OLT</option>
-                                <option value="onu" ${equipment.type === 'onu' ? 'selected' : ''}>ONU/Cliente</option>
-                                <option value="switch" ${equipment.type === 'switch' ? 'selected' : ''}>Switch</option>
-                                <option value="router" ${equipment.type === 'router' ? 'selected' : ''}>Roteador</option>
-                                <option value="radio" ${equipment.type === 'radio' ? 'selected' : ''}>Rádio</option>
-                                <option value="antena" ${equipment.type === 'antena' ? 'selected' : ''}>Antena</option>
-                                <option value="servidor" ${equipment.type === 'servidor' ? 'selected' : ''}>Servidor</option>
-                                <option value="cto" ${equipment.type === 'cto' ? 'selected' : ''}>CTO/Caixa</option>
-                                <option value="outro" ${equipment.type === 'outro' ? 'selected' : ''}>Outro</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Modelo</label>
-                        <input type="text" name="equipment_model" value="${equipment.model || ''}">
-                    </div>
-                    <div class="form-group">
-                        <label>Configuração</label>
-                        <textarea name="equipment_config">${equipment.config || ''}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Comentários</label>
-                        <textarea name="equipment_comments">${equipment.comments || ''}</textarea>
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-danger" onclick="closeEditEquipmentModal()">
-                            <i class="fas fa-times"></i> Cancelar
-                        </button>
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-save"></i> Salvar Alterações
-                        </button>
-                    </div>
-                </form>
-            `;
-            
-            document.getElementById('editEquipmentModal').style.display = 'flex';
-        }
-
-        function updateEquipment(event, equipmentId) {
-            event.preventDefault();
-            
-            if (!currentEditingRoute || !currentEditingEquipment) return;
-            
-            const formData = new FormData(event.target);
-            
-            // Atualizar a rota
-            const routes = JSON.parse(localStorage.getItem('ispRoutes')) || [];
-            const routeIndex = routes.findIndex(r => r.id == currentEditingRoute.id);
-            
-            if (routeIndex !== -1) {
-                const equipmentIndex = routes[routeIndex].equipment.findIndex(eq => eq.id == equipmentId);
-                if (equipmentIndex !== -1) {
-                    routes[routeIndex].equipment[equipmentIndex] = {
-                        ...routes[routeIndex].equipment[equipmentIndex],
-                        name: formData.get('equipment_name'),
-                        type: formData.get('equipment_type'),
-                        model: formData.get('equipment_model'),
-                        config: formData.get('equipment_config'),
-                        comments: formData.get('equipment_comments'),
-                        updatedAt: new Date().toISOString()
-                    };
-                    
-                    localStorage.setItem('ispRoutes', JSON.stringify(routes));
-                    
-                    // Atualizar a visualização
-                    currentEditingRoute = routes[routeIndex];
-                    loadPointsList(currentEditingRoute);
-                    loadRoutes();
-                    
-                    closeEditEquipmentModal();
-                    showNotification('Equipamento atualizado com sucesso!', 'success');
+            const newName = prompt('Novo nome do equipamento:', equipment.name);
+            if (newName && newName.trim() !== '') {
+                const routes = JSON.parse(localStorage.getItem('ispRoutes')) || [];
+                const routeIndex = routes.findIndex(r => r.id == currentRoute.id);
+                
+                if (routeIndex !== -1) {
+                    const equipmentIndex = routes[routeIndex].equipment.findIndex(eq => eq.id == equipmentId);
+                    if (equipmentIndex !== -1) {
+                        routes[routeIndex].equipment[equipmentIndex].name = newName.trim();
+                        localStorage.setItem('ispRoutes', JSON.stringify(routes));
+                        
+                        currentRoute = routes[routeIndex];
+                        loadEquipment();
+                        loadEquipmentManager();
+                        showNotification('Equipamento atualizado!', 'success');
+                    }
                 }
             }
         }
 
+        // Excluir equipamento
         function deleteEquipment(equipmentId) {
             if (!confirm('Tem certeza que deseja excluir este equipamento?')) return;
             
             const routes = JSON.parse(localStorage.getItem('ispRoutes')) || [];
-            const routeIndex = routes.findIndex(r => r.id == currentEditingRoute.id);
+            const routeIndex = routes.findIndex(r => r.id == currentRoute.id);
             
             if (routeIndex !== -1) {
                 routes[routeIndex].equipment = routes[routeIndex].equipment.filter(eq => eq.id != equipmentId);
                 localStorage.setItem('ispRoutes', JSON.stringify(routes));
                 
-                // Atualizar a visualização
-                currentEditingRoute = routes[routeIndex];
-                loadPointsList(currentEditingRoute);
-                loadRoutes();
-                
-                showNotification('Equipamento excluído com sucesso!', 'success');
+                currentRoute = routes[routeIndex];
+                loadEquipment();
+                loadEquipmentManager();
+                showNotification('Equipamento excluído!', 'success');
             }
+        }
+
+        // Funções auxiliares
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2)**2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2)**2;
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        }
+
+        function getLinkType(routeType) {
+            const types = {
+                'fibra': 'Fibra Óptica',
+                'radio': 'Rádio Enlace',
+                'metro': 'Metro Ethernet'
+            };
+            return types[routeType] || routeType;
         }
 
         function getEquipmentTypeDisplay(type) {
@@ -1211,61 +1302,98 @@
                 'switch': 'Switch',
                 'router': 'Roteador',
                 'radio': 'Rádio',
-                'antena': 'Antena',
+                'dwdm': 'DWDM',
                 'servidor': 'Servidor',
                 'cto': 'CTO/Caixa',
+                'director': 'Director Class',
                 'outro': 'Outro'
             };
             return types[type] || type;
         }
 
+        function getIconDisplayName(iconType) {
+            const iconNames = {
+                'default': 'Ponto Padrão',
+                'nuvem': 'nuvem',
+                'radio': 'Rádio',
+                'torre': 'Torre',
+                'router': 'Router',
+                'switch': 'Switch',
+                'dwdm': 'DWDM',
+                'atencao': 'Atenção'
+            };
+            return iconNames[iconType] || iconType;
+        }
+
+        function getRedundancyTypeDisplay(type) {
+            const types = {
+                'primary': 'Primária',
+                'secondary': 'Secundária', 
+                'backup': 'Backup'
+            };
+            return types[type] || type;
+        }
+
+        function viewOnMap() {
+            if (currentRoute) {
+                localStorage.setItem('viewRouteId', currentRoute.id);
+                window.location.href = 'index.html';
+            }
+        }
+
         function showNotification(message, type) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : 'info'}-circle"></i>
-                ${message}
-            `;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 4000);
+            // Criar notificação simples
+            alert(message);
         }
 
-        function viewRoute(routeId) {
-            localStorage.setItem('viewRouteId', routeId);
-            window.location.href = 'index.html';
-        }
-
-        function deleteRoute(routeId) {
-            if (!confirm('Tem certeza que deseja excluir esta rota? Todos os equipamentos associados também serão removidos.')) return;
-            
-            const routes = JSON.parse(localStorage.getItem('ispRoutes')) || [];
-            const updatedRoutes = routes.filter(route => route.id != routeId);
-            localStorage.setItem('ispRoutes', JSON.stringify(updatedRoutes));
-            
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
             loadRoutes();
-            showNotification('Rota excluída com sucesso!', 'success');
+            
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            
+            // Fechar modal ao clicar fora
+            document.getElementById('equipmentModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeEquipmentModal();
+                }
+            });
+
+            // Filtros
+            document.getElementById('routeTypeFilter').addEventListener('change', filterRoutes);
+            document.getElementById('statusFilter').addEventListener('change', filterRoutes);
+            document.getElementById('searchBox').addEventListener('input', filterRoutes);
+        });
+
+        // Filtrar rotas
+        function filterRoutes() {
+            const typeFilter = document.getElementById('routeTypeFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+
+            const routeItems = document.querySelectorAll('.route-item');
+            
+            routeItems.forEach(item => {
+                const routeId = item.getAttribute('data-route-id');
+                const route = allRoutes.find(r => r.id == routeId);
+                if (!route) return;
+
+                let show = true;
+
+                // Filtro por tipo
+                if (typeFilter !== 'all' && route.type !== typeFilter) {
+                    show = false;
+                }
+
+                // Filtro por busca
+                if (searchTerm && !route.name.toLowerCase().includes(searchTerm)) {
+                    show = false;
+                }
+
+                item.style.display = show ? 'block' : 'none';
+            });
         }
-
-        // Fechar modais ao clicar fora
-        document.getElementById('editModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-
-        document.getElementById('editEquipmentModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeEditEquipmentModal();
-            }
-        });
-
-        // Carregar rotas quando a página abrir
-        document.addEventListener('DOMContentLoaded', loadRoutes);
     </script>
 </body>
 </html>
-
